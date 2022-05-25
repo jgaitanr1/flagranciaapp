@@ -1,23 +1,24 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import md5 from 'md5';
 import Cookies from 'universal-cookie';
 import axios from 'axios';
 
+import { InputText } from 'primereact/inputtext';
+import { Button } from 'primereact/button';
 
 function Login(props) {
 
-    const baseUrl ="https://localhost:44355/api/usuario";
+    const baseUrl = "https://localhost:44355/api/usuario";
     const cookies = new Cookies();
-
     let navigate = useNavigate();
     const [form, setForm] = useState({
-        username:'',
-        password:''
+        username: '',
+        password: ''
     });
-    const handleChange=e=>{
-        const {name, value} = e.target;
+    const handleChange = e => {
+        const { name, value } = e.target;
         setForm({
             ...form,
             [name]: value
@@ -25,46 +26,74 @@ function Login(props) {
         console.log(form);
     }
 
-    const iniciarSesion=async()=>{
-        await axios.get(baseUrl+'/'+form.username+'/'+md5(form.password))
-        .then(response=>{
-            return response.data;
-        }).then(response=>{
-            if(response.length > 0){
-                var respuesta = response[0];
-                // console.log(respuesta);
-                cookies.set('id', respuesta.id, {path: '/'});
-                cookies.set('nombres', respuesta.nombres, {path: '/'});
-                cookies.set('apellidos', respuesta.apellidos, {path: '/'});
-                cookies.set('dni', respuesta.dni, {path: '/'});
-                cookies.set('username', respuesta.username, {path: '/'});
-                cookies.set('estado', respuesta.estado, {path: '/'});
-                cookies.set('depNombre', respuesta.depNombre, {path: '/'});
-                cookies.set('dependencia', respuesta.dependencia, {path: '/'});
-                alert("Bienvenido al sistema de Flagrancia "+respuesta.nombres);
-                navigate('/menu');
-            }else{
-                alert("El usuario o password es incorrecto");
-            }
-        })
-        .catch(error =>{
-            console.log(error);
-        })
+    const iniciarSesion = async () => {
+        await axios.get(baseUrl + '/' + form.username + '/' + md5(form.password))
+            .then(response => {
+                return response.data;
+            }).then(response => {
+                if (response.length > 0) {
+                    var respuesta = response[0];
+                    // console.log(respuesta);
+                    cookies.set('id', respuesta.id, { path: '/' });
+                    cookies.set('nombres', respuesta.nombres, { path: '/' });
+                    cookies.set('apellidos', respuesta.apellidos, { path: '/' });
+                    cookies.set('dni', respuesta.dni, { path: '/' });
+                    cookies.set('username', respuesta.username, { path: '/' });
+                    cookies.set('estado', respuesta.estado, { path: '/' });
+                    cookies.set('depNombre', respuesta.depNombre, { path: '/' });
+                    cookies.set('dependencia', respuesta.dependencia, { path: '/' });
+                    alert("Bienvenido al sistema de Flagrancia " + respuesta.nombres);
+                    navigate('/menu');
+                } else {
+                    alert("El usuario o password es incorrecto");
+                }
+            })
+            .catch(error => {
+                console.log(error);
+            })
     }
 
     return (
-        <div className='containerPrincipal'>
-            <div  className='containerLogin'>
-                <div className='form-group'>
-                    <label>Usuario: </label>
-                    <br />
-                    <input type="text" className='form-control' name="username" onChange={handleChange} />
-                    <br />
-                    <label>Password: </label>
-                    <br />
-                    <input type="password" className='form-control' name="password"  onChange={handleChange} />
-                    <br />
-                    <button className='btn btn-primary' onClick={()=>iniciarSesion()}>Iniciar Sesion</button>
+        // <div className='containerPrincipal'>
+        //     <div  className='containerLogin'>
+        //         <div className='form-group'>
+        //             <label>Usuario: </label>
+        //             <br />
+        //             <input type="text" className='form-control' name="username" onChange={handleChange} />
+        //             <br />
+        //             <label>Password: </label>
+        //             <br />
+        //             <input type="password" className='form-control' name="password"  onChange={handleChange} />
+        //             <br />
+        //             <button className='btn btn-primary' onClick={()=>iniciarSesion()}>Iniciar Sesion</button>
+        //         </div>
+        //     </div>
+        // </div>
+        <div className="flex align-items-center justify-content-center">
+            <div className="surface-card p-4 shadow-2 border-round w-full lg:w-6">
+                <div className="text-center mb-5">
+                    <img src="/logos/pjudicial.svg" alt="hyper" height={100} className="mb-3" />
+                    <div className="text-900 text-3xl font-medium mb-3">Corte Superior de Justicia de La Libertad</div>
+                    <span className="text-600 text-2xl font-medium line-height-3">Unidad de Flagrancia</span>
+                    {/* <a className="font-medium no-underline ml-2 text-blue-500 cursor-pointer">Create today!</a> */}
+                </div>
+
+                <div>
+                    <label htmlFor="email" className="block text-900 font-medium mb-2">Usuario</label>
+                    <InputText id="username" type="text" className="w-full mb-3" name="username"  onChange={handleChange} />
+
+                    <label htmlFor="password" className="block text-900 font-medium mb-2">Clave</label>
+                    <InputText id="password" type="password" className="w-full mb-3" name="password"  onChange={handleChange} />
+
+                    <div className="flex align-items-center justify-content-between mb-6">
+                        <div className="flex align-items-center">
+                            {/* <Checkbox id="rememberme" onChange={e => setChecked(e.checked)} checked={checked} className="mr-2" /> */}
+                            <label htmlFor="rememberme">Acuérdate de mí</label>
+                        </div>
+                        {/* <a className="font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer">Forgot your password?</a> */}
+                    </div>
+
+                    <Button label="Iniciar Sesion" icon="pi pi-user" className="w-full" onClick={()=>iniciarSesion()} />
                 </div>
             </div>
         </div>
