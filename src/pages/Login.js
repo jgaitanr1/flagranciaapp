@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import md5 from 'md5';
 import Cookies from 'universal-cookie';
 import axios from 'axios';
-import '../css/App.css';
 
 
 function Login(props) {
