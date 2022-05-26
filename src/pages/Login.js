@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import md5 from 'md5';
@@ -51,7 +51,14 @@ function Login(props) {
             .catch(error => {
                 console.log(error);
             })
+            
     }
+
+    useEffect(()=>{
+        if(cookies.get('id')){
+            navigate('/menu');
+        }
+    },[]);
 
     return (
         // <div className='containerPrincipal'>
