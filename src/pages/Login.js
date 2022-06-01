@@ -23,7 +23,7 @@ function Login(props) {
             ...form,
             [name]: value
         });
-        console.log(form);
+        // console.log(form);
     }
 
     const iniciarSesion = async () => {
@@ -33,7 +33,6 @@ function Login(props) {
             }).then(response => {
                 if (response.length > 0) {
                     var respuesta = response[0];
-                    // console.log(respuesta);
                     cookies.set('id', respuesta.id, { path: '/' });
                     cookies.set('nombres', respuesta.nombres, { path: '/' });
                     cookies.set('apellidos', respuesta.apellidos, { path: '/' });
@@ -43,7 +42,7 @@ function Login(props) {
                     cookies.set('depNombre', respuesta.depNombre, { path: '/' });
                     cookies.set('dependencia', respuesta.dependencia, { path: '/' });
                     alert("Bienvenido al sistema de Flagrancia " + respuesta.nombres);
-                    navigate('/menu');
+                    navigate('/');
                 } else {
                     alert("El usuario o password es incorrecto");
                 }
@@ -56,26 +55,12 @@ function Login(props) {
 
     useEffect(()=>{
         if(cookies.get('id')){
-            navigate('/menu');
+            navigate('/');
         }
+        document.documentElement.style.fontSize = 13 + 'px';
     },[]);
 
     return (
-        // <div className='containerPrincipal'>
-        //     <div  className='containerLogin'>
-        //         <div className='form-group'>
-        //             <label>Usuario: </label>
-        //             <br />
-        //             <input type="text" className='form-control' name="username" onChange={handleChange} />
-        //             <br />
-        //             <label>Password: </label>
-        //             <br />
-        //             <input type="password" className='form-control' name="password"  onChange={handleChange} />
-        //             <br />
-        //             <button className='btn btn-primary' onClick={()=>iniciarSesion()}>Iniciar Sesion</button>
-        //         </div>
-        //     </div>
-        // </div>
         <div className="flex align-items-center justify-content-center">
             <div className="surface-card p-4 shadow-2 border-round w-full lg:w-6">
                 <div className="text-center mb-5">
