@@ -3,6 +3,8 @@ import Menu from './pages/Menu';
 import Login from './pages/Login';
 import Prueba from './pages/Prueba';
 import Registro from './pages/Registro';
+import TimelineDemo from './pages/TimelineDemo';
+import IngresoPNP from './pages/IngresoPNP';
 
 
 import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
@@ -14,7 +16,7 @@ import 'primereact/resources/primereact.css';
 import './assets/demo/flags/flags.css';
 import './assets/demo/Demos.scss';
 import './assets/layout/layout.scss';
-import TimelineDemo from './pages/TimelineDemo';
+import ValidarPNP from './pages/ValidarPNP';
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
           <Route exact path ="prueba" element={ <Prueba />}/>
           <Route exact path ="timeline" element={ <TimelineDemo />}/>
           <Route exact path ="registro" element={ <Registro />}/>  
+          <Route exact path ="ingresoPNP" element={ <IngresoPNP />}/>
+          <Route exact path ="validarPNP" element={ <ValidarPNP />}/> 
         </Route>
         <Route exact path="/login" element={<Login />} />    
       </Routes>

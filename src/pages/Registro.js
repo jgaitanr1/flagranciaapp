@@ -49,7 +49,7 @@ export const Registro = () => {
         setDisable(true);
         entidad.fecRegistro = date;
         entidad.usuarioRegistro = cookies.get('username');
-        entidad.estadoFlagrante = cookies.get('depNombre');
+        entidad.estadoFlagrante = 'Registrado';
         delete entidad.id;
 
         await axios.post(baseUrl, entidad)
@@ -58,10 +58,10 @@ export const Registro = () => {
             }).catch(error => {
                 console.log(error);
             })
-        toast.current.show({ severity: 'info', summary: 'Confirmed', detail: 'Ingreso Correcto', life: 5000 });
+        toast.current.show({ severity: 'info', summary: 'Confirmado', detail: 'Ingreso Correcto', life: 2000 });
         setTimeout(() => {
             navigate('/prueba');
-        }, 5000);
+        }, 2000);
     }
 
 

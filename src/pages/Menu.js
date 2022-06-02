@@ -22,34 +22,77 @@ const Menu = () => {
 
     const copyTooltipRef = useRef();
 
-    const menu = [{
-        label: 'Favoritos',
-        items: [
-            { label: 'Inicio', icon: 'pi pi-fw pi-home', to: 'prueba' },
-            { label: 'Registro Flagrante', icon: 'pi pi-fw pi-pencil', to: 'timeline' }
-        ]
-        },
-        {
+    const pnp = [{
         label: 'Policia Nacional', icon: 'pi pi-fw pi-clone',
         items: [
-            { label: 'Registro', icon: 'pi pi-fw pi-user-edit', to:'registro' },
-            { label: 'Validar Ingreso', icon: 'pi pi-fw pi-id-card' },
+            { label: 'Registro', icon: 'pi pi-fw pi-user-edit', to: 'registro' },
+            { label: 'Ingreso a Sede', icon: 'pi pi-fw pi-map', to: 'ingresoPNP' },
+            { label: 'Validar Flagrante', icon: 'pi pi-fw pi-id-card', to: 'validarPNP' }
         ]
-        },
-        {
+    }]
+
+    const mp = [{
         label: 'Ministerio Publico', icon: 'pi pi-fw pi-clone',
         items: [
             { label: 'Lista de Flagrantes', icon: 'pi pi-fw pi-user-edit' },
             { label: 'Empty', icon: 'pi pi-fw pi-circle-off' }
         ]
-        },
-        {
+    }]
+
+    const pj = [{
         label: 'Poder Judicial', icon: 'pi pi-fw pi-clone',
         items: [
             { label: 'Lista de Flagrantes', icon: 'pi pi-fw pi-user-edit' },
             { label: 'Empty', icon: 'pi pi-fw pi-circle-off' }
         ]
-        }]
+    }]
+
+    const adm = [{
+        label: 'Favoritos',
+        items: [
+            { label: 'Inicio', icon: 'pi pi-fw pi-home', to: 'prueba' },
+            { label: 'Registro Flagrante', icon: 'pi pi-fw pi-pencil', to: 'timeline' }
+        ]
+    },
+    {
+        label: 'Policia Nacional', icon: 'pi pi-fw pi-clone',
+        items: [
+            { label: 'Registro', icon: 'pi pi-fw pi-user-edit', to: 'registro' },
+            { label: 'Ingreso a Sede', icon: 'pi pi-fw pi-map', to: 'ingresoPNP' },
+            { label: 'Validar Flagrante', icon: 'pi pi-fw pi-id-card', to: 'validarPNP' }
+        ]
+    },
+    {
+        label: 'Ministerio Publico', icon: 'pi pi-fw pi-clone',
+        items: [
+            { label: 'Lista de Flagrantes', icon: 'pi pi-fw pi-user-edit' },
+            { label: 'Empty', icon: 'pi pi-fw pi-circle-off' }
+        ]
+    },
+    {
+        label: 'Poder Judicial', icon: 'pi pi-fw pi-clone',
+        items: [
+            { label: 'Lista de Flagrantes', icon: 'pi pi-fw pi-user-edit' },
+            { label: 'Empty', icon: 'pi pi-fw pi-circle-off' }
+        ]
+    }]
+
+    function Acceder() {
+        if (cookies.get('depNombre') === 'Poder Judicial' ) {
+          return pj;
+        }else if(cookies.get('depNombre') === 'Policia Nacional del Peru'){
+            return pnp;
+        }else if(cookies.get('depNombre') === 'Ministerio Publico'){
+            return mp;
+        }else{
+            return adm;
+        }
+      }
+
+    
+    const menu = Acceder();
+
+    
 
     const [layoutMode, setLayoutMode] = useState('static');
     const [layoutColorMode, setLayoutColorMode] = useState('light');
