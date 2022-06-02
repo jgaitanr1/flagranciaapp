@@ -61,7 +61,7 @@ function Login(props) {
         if (cookies.get('id')) {
             navigate('/');
         }
-        document.documentElement.style.fontSize = 13 + 'px';
+        document.documentElement.style.fontSize = 12 + 'px';
     }, []);
 
     return (

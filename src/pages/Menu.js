@@ -10,6 +10,8 @@ import { AppTopbar } from '../AppTopbar';
 import { AppMenu } from '../AppMenu';
 import { CSSTransition } from 'react-transition-group';
 
+import { Service } from '../service/Service';
+
 
 
 const Menu = () => {
@@ -17,7 +19,6 @@ const Menu = () => {
     let navigate = useNavigate();
     let menuClick = false;
     let mobileTopbarMenuClick = false;
-    // const menu = MENU;
     PrimeReact.ripple = true;
 
     const copyTooltipRef = useRef();
@@ -51,7 +52,8 @@ const Menu = () => {
         label: 'Favoritos',
         items: [
             { label: 'Inicio', icon: 'pi pi-fw pi-home', to: 'prueba' },
-            { label: 'Registro Flagrante', icon: 'pi pi-fw pi-pencil', to: 'timeline' }
+            { label: 'TimeLine', icon: 'pi pi-fw pi-sort-amount-down-alt', to: 'timeline' },
+            { label: 'Lista de Flagrantes', icon: 'pi pi-fw pi-pencil', to: 'flagrantes' }
         ]
     },
     {
@@ -92,8 +94,6 @@ const Menu = () => {
     
     const menu = Acceder();
 
-    
-
     const [layoutMode, setLayoutMode] = useState('static');
     const [layoutColorMode, setLayoutColorMode] = useState('light');
     const [inputStyle, setInputStyle] = useState('outlined');
@@ -102,6 +102,7 @@ const Menu = () => {
     const [overlayMenuActive, setOverlayMenuActive] = useState(false);
     const [mobileMenuActive, setMobileMenuActive] = useState(false);
     const [mobileTopbarMenuActive, setMobileTopbarMenuActive] = useState(false);
+
 
     useEffect(() => {
         if (!cookies.get('id')) {

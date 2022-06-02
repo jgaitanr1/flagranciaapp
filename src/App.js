@@ -17,6 +17,7 @@ import './assets/demo/flags/flags.css';
 import './assets/demo/Demos.scss';
 import './assets/layout/layout.scss';
 import ValidarPNP from './pages/ValidarPNP';
+import Flagrantes from './pages/Flagrantes';
 
 function App() {
   return (
@@ -27,7 +28,8 @@ function App() {
           <Route exact path ="timeline" element={ <TimelineDemo />}/>
           <Route exact path ="registro" element={ <Registro />}/>  
           <Route exact path ="ingresoPNP" element={ <IngresoPNP />}/>
-          <Route exact path ="validarPNP" element={ <ValidarPNP />}/> 
+          <Route exact path ="validarPNP" element={ <ValidarPNP />}/>
+          <Route exact path ="flagrantes" element={ <Flagrantes />}/>
         </Route>
         <Route exact path="/login" element={<Login />} />    
       </Routes>
