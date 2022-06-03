@@ -64,12 +64,13 @@ export const ValidarPNP = () => {
     const peticionPost = async () => {
         let date = new Date();
         delete dproduct.id;
-        dproduct.descripcion = "Se Validaron los datos del detenido, Nombre: " + product.nombre + " N° Identificacion: " + product.documento;
-        dproduct.fecRegistro = date;
+        dproduct.descripcion = "Se Validaron los datos del detenido, Nombre: " + product.nombre + " N° Identificacion: " + 
+                                product.documento +", Se procedio a dar por finalizada la intervencion de la PNP.";
+        dproduct.fecRegistro = date.toLocaleString();
         dproduct.usuarioRegistro = cookies.get('username');
         dproduct.dependencia = cookies.get('depNombre');
         dproduct.idFlagrancia = product.id;
-        await axios.post(baseUrl, dproduct)
+        await axios.post(environment.baseUrl + "dflagrancia/", dproduct)
         // .then(response => {
         //     setData(data.concat(response.data));
         // }).catch(error => {
@@ -197,7 +198,7 @@ export const ValidarPNP = () => {
         return (
             <div className="actions">
                 <Button icon="pi pi-pencil" className="p-button-rounded p-button-outlined p-button-success mr-2" onClick={() => editProduct(rowData)} />
-                <Button icon="pi pi-image" className="p-button-rounded p-button-outlined p-button" />
+                {/* <Button icon="pi pi-image" className="p-button-rounded p-button-outlined p-button" /> */}
             </div>
         );
     }
@@ -236,7 +237,7 @@ export const ValidarPNP = () => {
                         <Column body={actionBodyTemplate}></Column>
                     </DataTable>
 
-                    <Dialog visible={productDialog} style={{ width: '450px' }} header="Detalle De Sede" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
+                    <Dialog visible={productDialog} style={{ width: '450px' }} header="Datos del detenido" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
                         <Message severity="error" text="Recuerda que al ACEPTAR el Detenido ya no podra ser modificado por la PNP y sera enviado al Ministerio Publico" />
                         <br />
                         <div className="field">

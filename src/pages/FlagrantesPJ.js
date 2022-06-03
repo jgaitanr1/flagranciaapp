@@ -12,7 +12,7 @@ import { Divider } from 'primereact/divider';
 import { Dropdown } from "primereact/dropdown";
 import { environment } from "../components/baseUrl";
 
-export const Flagrantes = () => {
+export const FlagrantesPJ = () => {
 
     let empty = {
         id: null,
@@ -202,7 +202,7 @@ export const Flagrantes = () => {
         return (
             <div className="actions">
                 <Button icon="pi pi-pencil" className="p-button-rounded p-button-outlined p-button-success mr-2" onClick={() => editProduct(rowData)} />
-                <Button icon="pi pi-sign-out" className="p-button-rounded p-button-outlined p-button-warning mr-2" onClick={() => confirmDeleteProduct(rowData)} />
+                {/* <Button icon="pi pi-sign-out" className="p-button-rounded p-button-outlined p-button-warning mr-2" onClick={() => confirmDeleteProduct(rowData)} /> */}
                 <Link to={`/timeline/${rowData.id}`} className="p-button-rounded p-button-outlined p-button" >TimeLine</Link>
             </div>
         );
@@ -252,19 +252,17 @@ export const Flagrantes = () => {
                     <Dialog visible={productDialog} style={{ width: '600px' }} header="Datos del Detenido" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
                         <div className="grid">
                             <div className="field col">
-                                <div className="field col">
-                                    <div className="field">
-                                        <label htmlFor="name">Nombre</label>
-                                        <InputText id="nombre" name="nombre" value={product.nombre} onChange={(e) => onInputChange(e, 'nombre')} required disabled />
-                                    </div>
-                                    <div className="field">
-                                        <label htmlFor="documento">N° Identidad</label>
-                                        <InputText id="documento" value={product.documento} onChange={(e) => onInputChange(e, 'documento')} required disabled />
-                                    </div>
-                                    <div className="field">
-                                        <label htmlFor="estado">Estado</label>
-                                        <Dropdown id="estado" options={state} value={product.estadoFlagrante} onChange={(e) => onInputChange(e, 'estadoFlagrante')} />
-                                    </div>
+                                <div className="field">
+                                    <label htmlFor="name">Nombre</label>
+                                    <InputText id="nombre" name="nombre" value={product.nombre} onChange={(e) => onInputChange(e, 'nombre')} required disabled />
+                                </div>
+                                <div className="field">
+                                    <label htmlFor="documento">N° Identidad</label>
+                                    <InputText id="documento" value={product.documento} onChange={(e) => onInputChange(e, 'documento')} required disabled />
+                                </div>
+                                <div className="field">
+                                    <label htmlFor="estado">Estado</label>
+                                    <Dropdown id="estado" options={state} value={product.estadoFlagrante} onChange={(e) => onInputChange(e, 'estadoFlagrante')} />
                                 </div>
                             </div>
                             <div className="col-1">
@@ -298,4 +296,4 @@ export const Flagrantes = () => {
     );
 }
 
-export default Flagrantes;
+export default FlagrantesPJ;

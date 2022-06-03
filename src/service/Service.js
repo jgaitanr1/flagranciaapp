@@ -12,4 +12,8 @@ export class Service {
     getFlagranciaIngresado() {
         return axios.get(this.endpointUrl+ "flagrancia/ingresado/").then(res => res.data);
     }
+    
+    getDFlagrancia() {
+        return axios.get(this.endpointUrl+ "dflagrancia/det/").then(res => res.data);
+    }
 }

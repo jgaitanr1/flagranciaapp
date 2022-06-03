@@ -18,6 +18,8 @@ import './assets/demo/Demos.scss';
 import './assets/layout/layout.scss';
 import ValidarPNP from './pages/ValidarPNP';
 import Flagrantes from './pages/Flagrantes';
+import FlagrantesMP from './pages/FlagrantesMP';
+import FlagrantesPJ from './pages/FlagrantesPJ';
 
 function App() {
   return (
@@ -25,11 +27,13 @@ function App() {
       <Routes>
         <Route exact path="/" element={<Menu />} > 
           <Route exact path ="prueba" element={ <Prueba />}/>
-          <Route exact path ="timeline" element={ <TimelineDemo />}/>
+          <Route exact path ="timeline/:id" element={ <TimelineDemo />}/>
           <Route exact path ="registro" element={ <Registro />}/>  
           <Route exact path ="ingresoPNP" element={ <IngresoPNP />}/>
           <Route exact path ="validarPNP" element={ <ValidarPNP />}/>
           <Route exact path ="flagrantes" element={ <Flagrantes />}/>
+          <Route exact path ="flagrantesMP" element={ <FlagrantesMP />}/>
+          <Route exact path ="flagrantesPJ" element={ <FlagrantesPJ />}/>
         </Route>
         <Route exact path="/login" element={<Login />} />    
       </Routes>

@@ -43,10 +43,10 @@ function Login(props) {
                     cookies.set('estado', respuesta.estado, { path: '/' });
                     cookies.set('depNombre', respuesta.depNombre, { path: '/' });
                     cookies.set('dependencia', respuesta.dependencia, { path: '/' });
-                    toast.current.show({ severity: 'success', summary: 'Logeado Correctamente', detail: 'Bienvenido '+respuesta.nombres+' '+respuesta.apellidos, life: 5000 });
+                    toast.current.show({ severity: 'success', summary: 'Logeado Correctamente', detail: 'Bienvenido '+respuesta.nombres+' '+respuesta.apellidos, life: 3000 });
                     setTimeout(() => {
                         navigate('/');
-                    }, 5000);
+                    }, 3000);
                 } else {
                     toast.current.show({ severity: 'error', summary: 'Datos Incorrectos', detail: 'Usuario o Contraseña incorrectos', life: 5000 });
                 }

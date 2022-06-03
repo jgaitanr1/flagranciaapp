@@ -10,10 +10,6 @@ import { AppTopbar } from '../AppTopbar';
 import { AppMenu } from '../AppMenu';
 import { CSSTransition } from 'react-transition-group';
 
-import { Service } from '../service/Service';
-
-
-
 const Menu = () => {
     const cookies = new Cookies();
     let navigate = useNavigate();
@@ -27,7 +23,7 @@ const Menu = () => {
         label: 'Policia Nacional', icon: 'pi pi-fw pi-clone',
         items: [
             { label: 'Registro', icon: 'pi pi-fw pi-user-edit', to: 'registro' },
-            { label: 'Ingreso a Sede', icon: 'pi pi-fw pi-map', to: 'ingresoPNP' },
+            { label: 'Ingreso a Sede', icon: 'pi pi-fw pi-map-marker', to: 'ingresoPNP' },
             { label: 'Validar Flagrante', icon: 'pi pi-fw pi-id-card', to: 'validarPNP' }
         ]
     }]
@@ -35,16 +31,14 @@ const Menu = () => {
     const mp = [{
         label: 'Ministerio Publico', icon: 'pi pi-fw pi-clone',
         items: [
-            { label: 'Lista de Flagrantes', icon: 'pi pi-fw pi-user-edit' },
-            { label: 'Empty', icon: 'pi pi-fw pi-circle-off' }
+            { label: 'Lista de Flagrantes', icon: 'pi pi-fw pi-pencil', to: 'flagrantesMP' }
         ]
     }]
 
     const pj = [{
         label: 'Poder Judicial', icon: 'pi pi-fw pi-clone',
         items: [
-            { label: 'Lista de Flagrantes', icon: 'pi pi-fw pi-user-edit' },
-            { label: 'Empty', icon: 'pi pi-fw pi-circle-off' }
+            { label: 'Lista de Flagrantes', icon: 'pi pi-fw pi-pencil', to: 'flagrantesPJ' }
         ]
     }]
 
@@ -52,7 +46,6 @@ const Menu = () => {
         label: 'Favoritos',
         items: [
             { label: 'Inicio', icon: 'pi pi-fw pi-home', to: 'prueba' },
-            { label: 'TimeLine', icon: 'pi pi-fw pi-sort-amount-down-alt', to: 'timeline' },
             { label: 'Lista de Flagrantes', icon: 'pi pi-fw pi-pencil', to: 'flagrantes' }
         ]
     },
@@ -60,22 +53,20 @@ const Menu = () => {
         label: 'Policia Nacional', icon: 'pi pi-fw pi-clone',
         items: [
             { label: 'Registro', icon: 'pi pi-fw pi-user-edit', to: 'registro' },
-            { label: 'Ingreso a Sede', icon: 'pi pi-fw pi-map', to: 'ingresoPNP' },
+            { label: 'Ingreso a Sede', icon: 'pi pi-fw pi-map-marker', to: 'ingresoPNP' },
             { label: 'Validar Flagrante', icon: 'pi pi-fw pi-id-card', to: 'validarPNP' }
         ]
     },
     {
         label: 'Ministerio Publico', icon: 'pi pi-fw pi-clone',
         items: [
-            { label: 'Lista de Flagrantes', icon: 'pi pi-fw pi-user-edit' },
-            { label: 'Empty', icon: 'pi pi-fw pi-circle-off' }
+            { label: 'Lista de Flagrantes', icon: 'pi pi-fw pi-pencil', to: 'flagrantesMP' }
         ]
     },
     {
         label: 'Poder Judicial', icon: 'pi pi-fw pi-clone',
         items: [
-            { label: 'Lista de Flagrantes', icon: 'pi pi-fw pi-user-edit' },
-            { label: 'Empty', icon: 'pi pi-fw pi-circle-off' }
+            { label: 'Lista de Flagrantes', icon: 'pi pi-fw pi-pencil', to: 'flagrantesPJ' }
         ]
     }]
 

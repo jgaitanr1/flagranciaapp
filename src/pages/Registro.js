@@ -17,8 +17,8 @@ export const Registro = () => {
         documento: '',
         situacionJuridica: '',
         sentencia: '',
-        latitud: '',
-        altitud: '',
+        latitud: null,
+        longitud: null,
         usuarioRegistro: '',
         fecRegistro: '',
         estadoFlagrante: '',
@@ -45,11 +45,25 @@ export const Registro = () => {
 
     const peticionPost = async () => {
         let date = new Date();
+
+        navigator.geolocation.getCurrentPosition(position => {
+            // console.log(position.coords.latitude);
+            // console.log(position.coords.longitude);
+            var lat = position.coords.latitude;
+            var lon = position.coords.longitude;
+            console.log(lat);
+            console.log(lon);
+            entidad.latitud = lat;
+            entidad.longitud = lon;
+        })
+        console.log(entidad.latitud);
+        console.log(entidad.longitud);
         // let output = String(date.getDate()).padStart(2, '0') + '/' + String(date.getMonth() + 1).padStart(2, '0') + '/' + date.getFullYear();
         setDisable(true);
-        entidad.fecRegistro = date;
+        entidad.fecRegistro = date.toLocaleString();
         entidad.usuarioRegistro = cookies.get('username');
         entidad.estadoFlagrante = 'Registrado';
+
         delete entidad.id;
 
         await axios.post(baseUrl, entidad)

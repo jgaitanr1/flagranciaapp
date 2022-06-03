@@ -61,8 +61,9 @@ export const IngresoPNP = () => {
 
     const peticionPost = async () => {
         delete dproduct.id;
-        dproduct.descripcion = "Se registro la detencion del Sr.(a) "+product.nombre+" en la fecha "+
-                            product.fecRegistro+" al encontrarse en hecho de Flagrancia";
+        dproduct.descripcion = "Se registro la detencion del Sr.(a) "+product.nombre+" por el usuario: "+
+                                product.usuarioRegistro+", al encontrarse en hecho de Flagrancia por lo que se "
+                                +"pone en conocimiento mediante este comunicado.";
         dproduct.dependencia = cookies.get('depNombre');
         dproduct.fecRegistro = product.fecRegistro;
         dproduct.usuarioRegistro = product.usuarioRegistro;
@@ -78,9 +79,10 @@ export const IngresoPNP = () => {
     const peticionPostIngreso = async () => {
         let date = new Date();
         delete dproduct.id;
-        dproduct.descripcion = "Ingreso el dia "+product.fecRegistro+" el Sr(a). "+product.nombre+" con Documento: "+
-                                product.documento+" En Flagrancia";
-        dproduct.fecRegistro = date;
+        dproduct.descripcion = "Se registro el ingreso del Sr(a). "+product.nombre+", con Documento: "+
+                                product.documento+", En la sede de Flagrancia por el usuario: "+ cookies.get('username') +
+                                ", a espera de la validacion de datos.";
+        dproduct.fecRegistro = date.toLocaleString();
         dproduct.usuarioRegistro = cookies.get('username');
         dproduct.dependencia = cookies.get('depNombre');
         dproduct.idFlagrancia = product.id;
@@ -176,11 +178,11 @@ export const IngresoPNP = () => {
         setData(_products);
         setDeleteProductDialog(false);
         setProduct(empty);
-        peticionEstadoPut();
-        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Detenido Ingresado en Sede', life: 4000 });
         setTimeout(() => {
             peticionPost();
         }, 1000);
+        peticionEstadoPut();
+        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Detenido Ingresado en Sede', life: 4000 });
         setTimeout(() => {
             peticionPostIngreso();
         }, 1000);
