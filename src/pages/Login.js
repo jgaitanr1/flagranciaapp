@@ -46,7 +46,7 @@ function Login(props) {
                     toast.current.show({ severity: 'success', summary: 'Logeado Correctamente', detail: 'Bienvenido '+respuesta.nombres+' '+respuesta.apellidos, life: 3000 });
                     setTimeout(() => {
                         navigate('/');
-                    }, 3000);
+                    }, 1500);
                 } else {
                     toast.current.show({ severity: 'error', summary: 'Datos Incorrectos', detail: 'Usuario o Contraseña incorrectos', life: 5000 });
                 }

@@ -27,7 +27,7 @@ export const AppTopbar = (props) => {
 
     return (
         <div className="layout-topbar">
-            <Link to="/pedido" className="layout-topbar-logo">
+            <Link to="/" className="layout-topbar-logo">
                 <img src="/logos/pjudicial.svg" alt="logo" />
                 <span>Unidad Flagrancia</span>
             </Link>

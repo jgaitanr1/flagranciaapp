@@ -21,7 +21,7 @@ export const Flagrantes = () => {
         situacionJuridica: '',
         sentencia: '',
         latitud: '',
-        altitud: '',
+        longitud: '',
         usuarioRegistro: '',
         fecRegistro: null,
         estadoFlagrante: '',
@@ -119,8 +119,9 @@ export const Flagrantes = () => {
     }
 
     const confirmDeleteProduct = (product) => {
-        setProduct(product);
-        setDeleteProductDialog(true);
+        window.open("https://www.google.es/maps?q="+product.latitud+","+product.longitud);
+        // setProduct(product);
+        // setDeleteProductDialog(true);
     }
 
     const deleteProduct = () => {
@@ -202,7 +203,7 @@ export const Flagrantes = () => {
         return (
             <div className="actions">
                 <Button icon="pi pi-pencil" className="p-button-rounded p-button-outlined p-button-success mr-2" onClick={() => editProduct(rowData)} />
-                <Button icon="pi pi-sign-out" className="p-button-rounded p-button-outlined p-button-warning mr-2" onClick={() => confirmDeleteProduct(rowData)} />
+                <Button icon="pi pi-map-marker" className="p-button-rounded p-button-outlined p-button-warning mr-2" onClick={() => confirmDeleteProduct(rowData)} />
                 <Link to={`/timeline/${rowData.id}`} className="p-button-rounded p-button-outlined p-button" >TimeLine</Link>
             </div>
         );

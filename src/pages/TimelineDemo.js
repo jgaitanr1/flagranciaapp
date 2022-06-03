@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from "react-router-dom";
 
 import { Card } from 'primereact/card';
 import { Timeline } from 'primereact/timeline';
@@ -11,35 +12,11 @@ import { environment } from '../components/baseUrl';
 
 export const TimelineDemo = () => {
 
-    const {id} = useParams();
+    const { id } = useParams();
 
     const baseUrl = environment.baseUrl + "dflagrancia/det/" + id;
 
-    let empty = {
-        id: null,
-        descripcion: '',
-        dependencia: '',
-        usuarioRegistro: '',
-        fecRegistro: null,
-        idFlagrancia: null
-    };
-
-    
-    const [product, setProduct] = useState(empty);
     const [data, setData] = useState(null);
-
-    // const customEvents = [
-    //     {
-    //         status: 'Registro de flagrante',
-    //         date: '27/05/2022 10:30',
-    //         icon: 'pi pi-inbox',
-    //         color: '#9C27B0',
-    //         image: 'game-controller.jpg'
-    //     },
-    //     { status: 'Ministerio Publico', date: '27/05/2022 14:00', icon: 'pi pi-cog', color: '#673AB7' },
-    //     { status: 'Poder Judicial', date: '28/05/2022 16:15', icon: 'pi pi-envelope', color: '#FF9800' },
-    //     { status: 'Resultado', date: '28/05/2022 10:00', icon: 'pi pi-check', color: '#607D8B' }
-    // ];
 
     const peticionGet = async () => {
         await axios.get(baseUrl)
@@ -55,33 +32,31 @@ export const TimelineDemo = () => {
     }, []);
 
     const customizedContent = (item) => {
-        let date = item.fecRegistro;
         return (
             <Card title={item.dependencia} subTitle={item.fecRegistro} >
                 <p>{item.descripcion}</p>
-                {/* <Button label="Read more" className="p-button-text"></Button> */}
             </Card>
         );
     };
 
     const customizedMarker = (item) => {
-        let color ='';
-        let icon ='';
+        let color = '';
+        let icon = '';
         // if(item.id === 1){
         //     color = '#FF9800';
         //     icon = 'pi pi-inbox'
         // }else 
-        if(item.dependencia === 'Ministerio Publico'){
+        if (item.dependencia === 'Ministerio Publico') {
             color = '#00416A';
             icon = 'pi pi-cog'
-        }else if(item.dependencia === 'Poder Judicial'){
+        } else if (item.dependencia === 'Poder Judicial') {
             color = '#8b0000';
             icon = 'pi pi-cog'
-        }else if(item.dependencia === 'Policia Nacional del Peru'){
+        } else if (item.dependencia === 'Policia Nacional del Peru') {
             color = '#2d572c';
             icon = 'pi pi-cog'
         }
-        else{
+        else {
             color = '#9C27B0';
             icon = 'pi pi-cog'
         }

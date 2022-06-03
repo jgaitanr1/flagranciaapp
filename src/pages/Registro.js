@@ -17,8 +17,8 @@ export const Registro = () => {
         documento: '',
         situacionJuridica: '',
         sentencia: '',
-        latitud: null,
-        longitud: null,
+        latitud: '',
+        longitud: '',
         usuarioRegistro: '',
         fecRegistro: '',
         estadoFlagrante: '',
@@ -35,6 +35,19 @@ export const Registro = () => {
 
     let navigate = useNavigate();
 
+    useEffect(() => {
+        geopos();
+    }, []);
+
+    const geopos = () => {
+        navigator.geolocation.getCurrentPosition(position => {
+            var lat = position.coords.latitude;
+            var lon = position.coords.longitude;
+            entidad.latitud = lat+'';
+            entidad.longitud = lon+'';
+        })
+    }
+
     const onInputChange = (e, name) => {
         const val = (e.target && e.target.value) || '';
         let _entidad = { ...entidad };
@@ -45,19 +58,6 @@ export const Registro = () => {
 
     const peticionPost = async () => {
         let date = new Date();
-
-        navigator.geolocation.getCurrentPosition(position => {
-            // console.log(position.coords.latitude);
-            // console.log(position.coords.longitude);
-            var lat = position.coords.latitude;
-            var lon = position.coords.longitude;
-            console.log(lat);
-            console.log(lon);
-            entidad.latitud = lat;
-            entidad.longitud = lon;
-        })
-        console.log(entidad.latitud);
-        console.log(entidad.longitud);
         // let output = String(date.getDate()).padStart(2, '0') + '/' + String(date.getMonth() + 1).padStart(2, '0') + '/' + date.getFullYear();
         setDisable(true);
         entidad.fecRegistro = date.toLocaleString();
@@ -65,7 +65,6 @@ export const Registro = () => {
         entidad.estadoFlagrante = 'Registrado';
 
         delete entidad.id;
-
         await axios.post(baseUrl, entidad)
             .then(response => {
                 setData(data.concat(response.data));
