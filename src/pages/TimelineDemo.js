@@ -48,17 +48,20 @@ export const TimelineDemo = () => {
         // }else 
         if (item.dependencia === 'Ministerio Publico') {
             color = '#00416A';
-            icon = 'pi pi-cog'
+            icon = 'pi pi-cog';
         } else if (item.dependencia === 'Poder Judicial') {
             color = '#8b0000';
-            icon = 'pi pi-cog'
+            icon = 'pi pi-cog';
         } else if (item.dependencia === 'Policia Nacional del Peru') {
             color = '#2d572c';
-            icon = 'pi pi-cog'
+            icon = 'pi pi-cog';
+        } else if (item.dependencia === 'Policia Nacional del Peru - IR') {
+                color = '#FF9800';
+                icon = 'pi pi-inbox';
         }
         else {
             color = '#9C27B0';
-            icon = 'pi pi-cog'
+            icon = 'pi pi-cog';
         }
         return (
             <span className="flex w-2rem h-2rem align-items-center justify-content-center text-white border-circle z-1 shadow-2" style={{ backgroundColor: color }}>

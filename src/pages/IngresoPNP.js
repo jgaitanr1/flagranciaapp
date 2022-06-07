@@ -24,6 +24,7 @@ export const IngresoPNP = () => {
         sentencia: '',
         latitud: '',
         altitud: '',
+        tipoArresto:'',
         usuarioRegistro: '',
         fecRegistro: null,
         estadoFlagrante: '',
@@ -61,19 +62,13 @@ export const IngresoPNP = () => {
 
     const peticionPost = async () => {
         delete dproduct.id;
-        dproduct.descripcion = "Se registro la detencion del Sr.(a) "+product.nombre+" por el usuario: "+
-                                product.usuarioRegistro+", al encontrarse en hecho de Flagrancia por lo que se "
-                                +"pone en conocimiento mediante este comunicado.";
+        dproduct.descripcion = "Se registro el arresto "+product.tipoArresto+" del Sr.(a) "+product.nombre+" el que se ingreso a sistema con el usuario: "+
+                                product.usuarioRegistro+", al encontrarse en hecho de Flagrancia por lo que se pone en conocimiento mediante este comunicado.";
         dproduct.dependencia = cookies.get('depNombre');
         dproduct.fecRegistro = product.fecRegistro;
         dproduct.usuarioRegistro = product.usuarioRegistro;
         dproduct.idFlagrancia = product.id;
         await axios.post(environment.baseUrl + "dflagrancia/", dproduct)
-            // .then(response => {
-            //     setData(data.concat(response.data));
-            // }).catch(error => {
-            //     console.log(error);
-            // })
     }
 
     const peticionPostIngreso = async () => {
@@ -178,10 +173,10 @@ export const IngresoPNP = () => {
         setData(_products);
         setDeleteProductDialog(false);
         setProduct(empty);
+        peticionPost();
         setTimeout(() => {
-            peticionPost();
-        }, 1000);
-        peticionEstadoPut();
+            peticionEstadoPut();
+        }, 1500);
         toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Detenido Ingresado en Sede', life: 4000 });
         setTimeout(() => {
             peticionPostIngreso();

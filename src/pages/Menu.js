@@ -8,7 +8,7 @@ import { Tooltip } from 'primereact/tooltip';
 import { AppFooter } from '../AppFooter';
 import { AppTopbar } from '../AppTopbar';
 import { AppMenu } from '../AppMenu';
-import { CSSTransition } from 'react-transition-group';
+// import { CSSTransition } from 'react-transition-group';
 
 const Menu = () => {
     const cookies = new Cookies();
@@ -22,9 +22,15 @@ const Menu = () => {
     const pnp = [{
         label: 'Policia Nacional', icon: 'pi pi-fw pi-clone',
         items: [
-            { label: 'Registro', icon: 'pi pi-fw pi-user-edit', to: 'registro' },
             { label: 'Ingreso a Sede', icon: 'pi pi-fw pi-map-marker', to: 'ingresoPNP' },
             { label: 'Validar Flagrante', icon: 'pi pi-fw pi-id-card', to: 'validarPNP' }
+        ]
+    }]
+
+    const patrulla = [{
+        label: 'Policia Nacional', icon: 'pi pi-fw pi-clone',
+        items: [
+            { label: 'Registro', icon: 'pi pi-fw pi-user-edit', to: 'registro' }
         ]
     }]
 
@@ -71,12 +77,14 @@ const Menu = () => {
     }]
 
     function Acceder() {
-        if (cookies.get('depNombre') === 'Poder Judicial' ) {
+        if (cookies.get('depNombre') === 'Poder Judicial' ){
           return pj;
         }else if(cookies.get('depNombre') === 'Policia Nacional del Peru'){
             return pnp;
         }else if(cookies.get('depNombre') === 'Ministerio Publico'){
             return mp;
+        }else if(cookies.get('depNombre') === 'Policia Nacional del Peru - IR'){
+            return patrulla;
         }else{
             return adm;
         }
@@ -195,9 +203,9 @@ const Menu = () => {
                 </div>
                 <AppFooter />
             </div>
-            <CSSTransition classNames="layout-mask" timeout={{ enter: 200, exit: 200 }} in={mobileMenuActive} unmountOnExit>
+            {/* <CSSTransition classNames="layout-mask" timeout={{ enter: 200, exit: 200 }} in={mobileMenuActive} unmountOnExit>
                 <div className="layout-mask p-component-overlay"></div>
-            </CSSTransition>
+            </CSSTransition> */}
 
         </div>
     );

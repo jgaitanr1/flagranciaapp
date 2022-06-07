@@ -104,6 +104,12 @@ export const ValidarPNP = () => {
     }, []);
 
 
+    const confirmDeleteProduct = (product) => {
+        window.open("https://www.google.es/maps?q="+product.latitud+","+product.longitud);
+        // setProduct(product);
+        // setDeleteProductDialog(true);
+    }
+    
     const hideDialog = () => {
         setSubmitted(false);
         setProductDialog(false);
@@ -198,6 +204,7 @@ export const ValidarPNP = () => {
         return (
             <div className="actions">
                 <Button icon="pi pi-pencil" className="p-button-rounded p-button-outlined p-button-success mr-2" onClick={() => editProduct(rowData)} />
+                <Button icon="pi pi-map-marker" className="p-button-rounded p-button-outlined p-button-warning mr-2" onClick={() => confirmDeleteProduct(rowData)} />
                 {/* <Button icon="pi pi-image" className="p-button-rounded p-button-outlined p-button" /> */}
             </div>
         );
