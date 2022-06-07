@@ -44,19 +44,19 @@ export const AppTopbar = (props) => {
                 <li>
                     <button className="p-link layout-topbar-button" onClick={props.onMobileSubTopbarMenuClick}>
                         <i className="pi pi-calendar" />
-                        <span>Events</span>
+                        <span>Eventos</span>
                     </button>
                 </li>
                 <li>
                     <button className="p-link layout-topbar-button" onClick={props.onMobileSubTopbarMenuClick}>
                         <i className="pi pi-cog" />
-                        <span>Settings</span>
+                        <span>Configuraciones</span>
                     </button>
                 </li>
                 <li>
                     <button className="p-link layout-topbar-button" onClick={props.onMobileSubTopbarMenuClick}>
                         <i className="pi pi-user" />
-                        <span>Profile</span>
+                        <span>Perfil</span>
                     </button>
                 </li>
                 <li>
