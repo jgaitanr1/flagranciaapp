@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 
@@ -14,7 +14,7 @@ import { environment } from '../components/baseUrl';
 export const IngresoPNP = () => {
 
     const cookies = new Cookies();
-    let navigate = useNavigate();
+    // let navigate = useNavigate();
     
     let empty = {
         id: null,
@@ -22,6 +22,7 @@ export const IngresoPNP = () => {
         documento: '',
         situacionJuridica: '',
         sentencia: '',
+        descripcion:'',
         latitud: '',
         altitud: '',
         tipoArresto:'',
@@ -191,7 +192,7 @@ export const IngresoPNP = () => {
     const deleteProductDialogFooter = (
         <>
             <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteProductDialog} />
-            <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteProduct} />
+            <Button label="Si" icon="pi pi-check" className="p-button-text" onClick={deleteProduct} />
         </>
     );
 
@@ -208,7 +209,7 @@ export const IngresoPNP = () => {
             <h5 className="m-0">Lista de Flagrantes</h5>
             <span className="block mt-2 md:mt-0 p-input-icon-left">
                 <i className="pi pi-search" />
-                <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Search..." />
+                <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Buscar..." />
             </span>
         </div>
     );

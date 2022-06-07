@@ -20,6 +20,7 @@ export const Flagrantes = () => {
         documento: '',
         situacionJuridica: '',
         sentencia: '',
+        descripcion:'',
         latitud: '',
         longitud: '',
         usuarioRegistro: '',

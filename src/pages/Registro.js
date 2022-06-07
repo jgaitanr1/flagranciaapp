@@ -18,6 +18,7 @@ export const Registro = () => {
         documento: '',
         situacionJuridica: '',
         sentencia: '',
+        descripcion:'',
         latitud: '',
         longitud: '',
         tipoArresto: '',
@@ -30,7 +31,7 @@ export const Registro = () => {
     const cookies = new Cookies();
 
     const [entidad, setEntidad] = useState(empty);
-    const [data, setData] = useState(null);
+    // const [data, setData] = useState(null);
     const [disable, setDisable] = useState(false);
     const [radioValue, setRadioValue] = useState(null);
     const baseUrl = environment.baseUrl + "flagrancia/";
@@ -76,8 +77,8 @@ export const Registro = () => {
         entidad.fecRegistro = date.toLocaleString();
         entidad.usuarioRegistro = cookies.get('username');
         entidad.estadoFlagrante = 'Registrado';
-        entidad.situacionJuridica = 'pendiente';
-        entidad.sentencia = 'pendiente';
+        // entidad.situacionJuridica = 'pendiente';
+        // entidad.sentencia = 'pendiente';
 
         delete entidad.id;
         await axios.post(baseUrl, entidad)

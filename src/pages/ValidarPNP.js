@@ -22,6 +22,7 @@ export const ValidarPNP = () => {
         documento: '',
         situacionJuridica: '',
         sentencia: '',
+        descripcion:'',
         latitud: '',
         altitud: '',
         usuarioRegistro: '',
@@ -215,15 +216,15 @@ export const ValidarPNP = () => {
             <h5 className="m-0">Lista de Flagrantes</h5>
             <span className="block mt-2 md:mt-0 p-input-icon-left">
                 <i className="pi pi-search" />
-                <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Search..." />
+                <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Buscar..." />
             </span>
         </div>
     );
 
     const productDialogFooter = (
         <>
-            <Button label="Cancel" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
-            <Button label="Save" icon="pi pi-check" className="p-button-text" onClick={saveProduct} />
+            <Button label="Cancelar" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
+            <Button label="Guardar" icon="pi pi-check" className="p-button-text" onClick={saveProduct} />
         </>
     );
 
@@ -245,7 +246,7 @@ export const ValidarPNP = () => {
                     </DataTable>
 
                     <Dialog visible={productDialog} style={{ width: '450px' }} header="Datos del detenido" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
-                        <Message severity="error" text="Recuerda que al ACEPTAR el Detenido ya no podra ser modificado por la PNP y sera enviado al Ministerio Publico" />
+                        <Message severity="error" text="Recuerda que al GUARDAR el Detenido ya no podra ser modificado por la PNP y sera enviado al Ministerio Publico" />
                         <br />
                         <div className="field">
                             <label htmlFor="name">Nombre Detenido</label>

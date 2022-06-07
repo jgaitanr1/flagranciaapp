@@ -20,6 +20,7 @@ export const FlagrantesMP = () => {
         documento: '',
         situacionJuridica: '',
         sentencia: '',
+        descripcion:'',
         latitud: '',
         altitud: '',
         usuarioRegistro: '',
@@ -39,7 +40,7 @@ export const FlagrantesMP = () => {
 
 
     const [productDialog, setProductDialog] = useState(false);
-    const [deleteProductDialog, setDeleteProductDialog] = useState(false);
+    // const [deleteProductDialog, setDeleteProductDialog] = useState(false);
     const [product, setProduct] = useState(empty);
     const [selectedProducts, setSelectedProducts] = useState(null);
     const [submitted, setSubmitted] = useState(false);
@@ -91,9 +92,9 @@ export const FlagrantesMP = () => {
         setProductDialog(false);
     }
 
-    const hideDeleteProductDialog = () => {
-        setDeleteProductDialog(false);
-    }
+    // const hideDeleteProductDialog = () => {
+    //     setDeleteProductDialog(false);
+    // }
 
     const saveProduct = () => {
         setSubmitted(true);
@@ -105,7 +106,7 @@ export const FlagrantesMP = () => {
                 const index = findIndexById(product.id);
                 _products[index] = _product;
                 peticionPut();
-                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Deteneido Modificado', life: 3000 });
+                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Detenido Modificado', life: 3000 });
                 setProductDialog(false);
             }
             setData(_products);
@@ -118,18 +119,18 @@ export const FlagrantesMP = () => {
         setProductDialog(true);
     }
 
-    const confirmDeleteProduct = (product) => {
-        setProduct(product);
-        setDeleteProductDialog(true);
-    }
+    // const confirmDeleteProduct = (product) => {
+    //     setProduct(product);
+    //     setDeleteProductDialog(true);
+    // }
 
-    const deleteProduct = () => {
-        let _products = data.filter(val => val.id !== product.id);
-        setData(_products);
-        setDeleteProductDialog(false);
-        setProduct(empty);
-        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
-    }
+    // const deleteProduct = () => {
+    //     let _products = data.filter(val => val.id !== product.id);
+    //     setData(_products);
+    //     setDeleteProductDialog(false);
+    //     setProduct(empty);
+    //     toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
+    // }
 
     const findIndexById = (id) => {
         let index = -1;
@@ -151,6 +152,11 @@ export const FlagrantesMP = () => {
         console.log(product);
     }
 
+    const googleMapsProduct = (product) => {
+        window.open("https://www.google.es/maps?q="+product.latitud+","+product.longitud);
+        // setProduct(product);
+        // setDeleteProductDialog(true);
+    }
 
     const idBodyTemplate = (rowData) => {
         return (
@@ -202,34 +208,34 @@ export const FlagrantesMP = () => {
         return (
             <div className="actions">
                 <Button icon="pi pi-pencil" className="p-button-rounded p-button-outlined p-button-success mr-2" onClick={() => editProduct(rowData)} />
-                {/* <Button icon="pi pi-sign-out" className="p-button-rounded p-button-outlined p-button-warning mr-2" onClick={() => confirmDeleteProduct(rowData)} /> */}
-                <Link to={`/timeline/${rowData.id}`} className="p-button-rounded p-button-outlined p-button" >TimeLine</Link>
+                <Button icon="pi pi-map-marker" className="p-button-rounded p-button-outlined p-button-warning mr-2" onClick={() => googleMapsProduct(rowData)} />
+                <Link to={`/timeline/${rowData.id}`} className="p-button-rounded p-button-outlined p-button" >Detalle</Link>
             </div>
         );
     }
 
     const header = (
         <div className="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-            <h5 className="m-0">Configuracion de Flagrantes</h5>
+            <h5 className="m-0">Lista de Flagrantes</h5>
             <span className="block mt-2 md:mt-0 p-input-icon-left">
                 <i className="pi pi-search" />
-                <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Search..." />
+                <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Buscar..." />
             </span>
         </div>
     );
 
     const productDialogFooter = (
         <>
-            <Button label="Cancel" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
-            <Button label="Save" icon="pi pi-check" className="p-button-text" onClick={saveProduct} />
+            <Button label="Cancelar" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
+            <Button label="Guardar" icon="pi pi-check" className="p-button-text" onClick={saveProduct} />
         </>
     );
-    const deleteProductDialogFooter = (
-        <>
-            <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteProductDialog} />
-            <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteProduct} />
-        </>
-    );
+    // const deleteProductDialogFooter = (
+    //     <>
+    //         <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteProductDialog} />
+    //         <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteProduct} />
+    //     </>
+    // );
 
     return (
         <div className="grid crud-demo">
@@ -249,7 +255,7 @@ export const FlagrantesMP = () => {
                         <Column body={actionBodyTemplate}></Column>
                     </DataTable>
 
-                    <Dialog visible={productDialog} style={{ width: '600px' }} header="Datos del Detenido" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
+                    <Dialog visible={productDialog} style={{ width: '900px' }} header="Datos del Detenido" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
                         <div className="grid">
                             <div className="field col">
                                 <div className="field col">
@@ -260,10 +266,6 @@ export const FlagrantesMP = () => {
                                     <div className="field">
                                         <label htmlFor="documento">N° Identidad</label>
                                         <InputText id="documento" value={product.documento} onChange={(e) => onInputChange(e, 'documento')} required disabled />
-                                    </div>
-                                    <div className="field">
-                                        <label htmlFor="estado">Estado</label>
-                                        <Dropdown id="estado" options={state} value={product.estadoFlagrante} onChange={(e) => onInputChange(e, 'estadoFlagrante')} />
                                     </div>
                                 </div>
                             </div>
@@ -286,12 +288,12 @@ export const FlagrantesMP = () => {
 
                     </Dialog>
 
-                    <Dialog visible={deleteProductDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteProductDialogFooter} onHide={hideDeleteProductDialog}>
+                    {/* <Dialog visible={deleteProductDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteProductDialogFooter} onHide={hideDeleteProductDialog}>
                         <div className="flex align-items-center justify-content-center">
                             <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
                             {product && <span>Esta seguro de deshabilitar la sede <b>{product.nombre}</b>?</span>}
                         </div>
-                    </Dialog>
+                    </Dialog> */}
                 </div>
             </div>
         </div>
