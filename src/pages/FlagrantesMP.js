@@ -73,6 +73,7 @@ export const FlagrantesMP = () => {
     const [product, setProduct] = useState(empty);
     const [dproduct, setDProduct] = useState(dempty);
     const [selectedProducts, setSelectedProducts] = useState(null);
+    const [deleteProductDialog, setDeleteProductDialog] = useState(false);
     const [submitted, setSubmitted] = useState(false);
     const [globalFilter, setGlobalFilter] = useState(null);
     const toast = useRef(null);
@@ -92,7 +93,7 @@ export const FlagrantesMP = () => {
     const det = OpcionDetalle();
 
     const peticionGet = async () => {
-        await axios.get(baseUrl)
+        await axios.get(baseUrl+"mp/")
             .then(response => {
                 setData(response.data);
             }).catch(error => {
@@ -113,8 +114,9 @@ export const FlagrantesMP = () => {
     const peticionPost = async () => {
         let date = new Date();
         delete dproduct.id;
-        dproduct.descripcion = "Se resolvio por parte de "+ cookies.get('depNombre') +" otorgar: "+
-                                product.estadoFlagrante + " por principio de "+ product.descripcion + 
+        dproduct.descripcion = "Se resolvio por parte de "+ cookies.get('depNombre') +
+                                " otorgar al Sr.(a) "+ product.nombre +" la medida de: "+
+                                product.situacionJuridica + " por principio de "+ product.descripcion + 
                                 "de tal manera que informa para los motivos que sean requeridos.";
         dproduct.fecRegistro = date.toLocaleString();
         dproduct.usuarioRegistro = cookies.get('username');
@@ -123,8 +125,20 @@ export const FlagrantesMP = () => {
         await axios.post(environment.baseUrl + "dflagrancia/", dproduct);
     }
 
+    const peticionPostLibertad = async () => {
+        let date = new Date();
+        delete dproduct.id;
+        dproduct.descripcion = "Se da por resuelta la situacion del Sr.(a) "+ product.nombre +" al otorgar: "+
+                                product.situacionJuridica + " por principio de "+ product.descripcion + 
+                                " de tal manera se cierra este caso con dicha informacion.";
+        dproduct.fecRegistro = date.toLocaleString();
+        dproduct.usuarioRegistro = cookies.get('username');
+        dproduct.dependencia = 'Sistema de Flagrancia';
+        dproduct.idFlagrancia = product.id;
+        await axios.post(environment.baseUrl + "dflagrancia/", dproduct);
+    }
+
     const peticionPut = async () => {
-        product.estadoFlagrante = "Poder Judicial";
         await axios.put(baseUrl + product.id, product)
             .then(response => {
                 var dataNueva = data;
@@ -138,6 +152,15 @@ export const FlagrantesMP = () => {
             }).catch(error => {
                 console.log(error);
             })
+    }
+
+    const peticionPutEstado = async () => {
+        if(product.situacionJuridica === 'Libertad'){
+            product.estadoFlagrante = 'Resuelto';
+        }else{
+            product.estadoFlagrante = 'Poder Judicial';
+        }
+        await axios.put(baseUrl + product.id, product);
     }
 
     useEffect(() => {
@@ -164,6 +187,9 @@ export const FlagrantesMP = () => {
                 _products[index] = _product;
                 peticionPut();
                 toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Detenido Modificado', life: 3000 });
+                setTimeout(() => {
+                    peticionPost();
+                }, 1500);
                 setProductDialog(false);
             }
             setData(_products);
@@ -175,6 +201,38 @@ export const FlagrantesMP = () => {
         setProduct({ ...product });
         setProductDialog(true);
     }
+
+    const confirmDeleteProduct = (product) => {
+        setProduct(product);
+        setDeleteProductDialog(true);
+    }
+
+    const hideDeleteProductDialog = () => {
+        setDeleteProductDialog(false);
+    }
+
+    const deleteProduct = () => {
+        let _products = data.filter(val => val.id !== product.id);
+        setData(_products);
+        setDeleteProductDialog(false);
+        setProduct(empty);
+        setTimeout(() => {
+            if(product.situacionJuridica === 'Libertad'){
+                peticionPostLibertad();
+            }
+        }, 1500);
+        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Completado', life: 4000 });
+        setTimeout(() => {
+            peticionPutEstado();
+        }, 1000);
+    }
+
+    const deleteProductDialogFooter = (
+        <>
+            <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteProductDialog} />
+            <Button label="Si" icon="pi pi-check" className="p-button-text" onClick={deleteProduct} />
+        </>
+    );
 
     const findIndexById = (id) => {
         let index = -1;
@@ -249,9 +307,10 @@ export const FlagrantesMP = () => {
     const actionBodyTemplate = (rowData) => {
         return (
             <div className="actions">
-                <Button icon="pi pi-pencil" className="p-button-rounded p-button-outlined p-button-success mr-2" onClick={() => editProduct(rowData)} />
+                <Link to={`/timeline/${rowData.id}`} className="p-button-rounded p-button-outlined p-button mr-2" >Det.</Link>
                 <Button icon="pi pi-map-marker" className="p-button-rounded p-button-outlined p-button-warning mr-2" onClick={() => googleMapsProduct(rowData)} />
-                <Link to={`/timeline/${rowData.id}`} className="p-button-rounded p-button-outlined p-button" >Detalle</Link>
+                <Button icon="pi pi-pencil" className="p-button-rounded p-button-outlined p-button-success mr-2" onClick={() => editProduct(rowData)} />  
+                <Button icon="pi pi-check" className="p-button-rounded p-button-outlined p-button mr-2" onClick={() => confirmDeleteProduct(rowData)} />
             </div>
         );
     }
@@ -327,15 +386,14 @@ export const FlagrantesMP = () => {
                             </div>
                         </div>
 
-
                     </Dialog>
 
-                    {/* <Dialog visible={deleteProductDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteProductDialogFooter} onHide={hideDeleteProductDialog}>
+                    <Dialog visible={deleteProductDialog} style={{ width: '450px' }} header="Confirmar" modal footer={deleteProductDialogFooter} onHide={hideDeleteProductDialog}>
                         <div className="flex align-items-center justify-content-center">
                             <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
-                            {product && <span>Esta seguro de deshabilitar la sede <b>{product.nombre}</b>?</span>}
+                            {product && <span>Recuerde que al confirmar, ya no podra editar el caso del Sr.@ <b>{product.nombre}</b></span>}
                         </div>
-                    </Dialog> */}
+                    </Dialog>
                 </div>
             </div>
         </div>

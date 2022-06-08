@@ -55,9 +55,9 @@ export const TimelineDemo = () => {
         } else if (item.dependencia === 'Policia Nacional del Peru') {
             color = '#2d572c';
             icon = 'pi pi-cog';
-        } else if (item.dependencia === 'Policia Nacional del Peru - IR') {
-                color = '#FF9800';
-                icon = 'pi pi-inbox';
+        } else if (item.dependencia === 'Sistema de Flagrancia') {
+                color = '#607D8B';
+                icon = 'pi pi-check';
         }
         else {
             color = '#9C27B0';
