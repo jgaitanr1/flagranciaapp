@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from "react-router-dom";
 import axios from 'axios';
+import Cookies from 'universal-cookie';
 
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
@@ -13,6 +14,7 @@ import { Dropdown } from "primereact/dropdown";
 import { environment } from "../components/baseUrl";
 
 export const FlagrantesMP = () => {
+    const cookies = new Cookies();
 
     let empty = {
         id: null,
@@ -29,11 +31,38 @@ export const FlagrantesMP = () => {
         estado: true
     };
 
+    let dempty = {
+        id: null,
+        descripcion: '',
+        dependencia: '',
+        usuarioRegistro: '',
+        fecRegistro: null,
+        idFlagrancia: null
+    };
+
     const state = [
-        "Ministerio Publico",
-        "Poder Judicial",
-        "Finalizado",
+        "Libertad",
+        "Incoación de proceso inmediato"
     ];
+
+    const libertad = [
+        "Principio de Oportunidad",
+        "Corte de proceso por Menor de Edad",
+        "No es delito",
+        "Es falta",
+        "opcion 5",
+        "opcion 6"
+    ];
+
+    const pi = [
+        "Opcion 1",
+        "Opcion 2",
+        "Opcion 3",
+        "Opcion 4",
+        "Opcion 5",
+        "Opcion 6"
+    ];
+
 
     const baseUrl = environment.baseUrl + "flagrancia/";
     const [data, setData] = useState(null);
@@ -42,11 +71,25 @@ export const FlagrantesMP = () => {
     const [productDialog, setProductDialog] = useState(false);
     // const [deleteProductDialog, setDeleteProductDialog] = useState(false);
     const [product, setProduct] = useState(empty);
+    const [dproduct, setDProduct] = useState(dempty);
     const [selectedProducts, setSelectedProducts] = useState(null);
     const [submitted, setSubmitted] = useState(false);
     const [globalFilter, setGlobalFilter] = useState(null);
     const toast = useRef(null);
     const dt = useRef(null);
+
+    
+    function OpcionDetalle() {
+        if (product.situacionJuridica === 'Libertad' ){
+          return libertad;
+        }else if(product.situacionJuridica === 'Incoación de proceso inmediato'){
+            return pi;
+        }else{
+            return null;
+        }
+      }
+
+    const det = OpcionDetalle();
 
     const peticionGet = async () => {
         await axios.get(baseUrl)
@@ -67,7 +110,21 @@ export const FlagrantesMP = () => {
     //         })
     // }
 
+    const peticionPost = async () => {
+        let date = new Date();
+        delete dproduct.id;
+        dproduct.descripcion = "Se resolvio por parte de "+ cookies.get('depNombre') +" otorgar: "+
+                                product.estadoFlagrante + " por principio de "+ product.descripcion + 
+                                "de tal manera que informa para los motivos que sean requeridos.";
+        dproduct.fecRegistro = date.toLocaleString();
+        dproduct.usuarioRegistro = cookies.get('username');
+        dproduct.dependencia = cookies.get('depNombre');
+        dproduct.idFlagrancia = product.id;
+        await axios.post(environment.baseUrl + "dflagrancia/", dproduct);
+    }
+
     const peticionPut = async () => {
+        product.estadoFlagrante = "Poder Judicial";
         await axios.put(baseUrl + product.id, product)
             .then(response => {
                 var dataNueva = data;
@@ -119,19 +176,6 @@ export const FlagrantesMP = () => {
         setProductDialog(true);
     }
 
-    // const confirmDeleteProduct = (product) => {
-    //     setProduct(product);
-    //     setDeleteProductDialog(true);
-    // }
-
-    // const deleteProduct = () => {
-    //     let _products = data.filter(val => val.id !== product.id);
-    //     setData(_products);
-    //     setDeleteProductDialog(false);
-    //     setProduct(empty);
-    //     toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
-    // }
-
     const findIndexById = (id) => {
         let index = -1;
         for (let i = 0; i < data.length; i++) {
@@ -154,8 +198,6 @@ export const FlagrantesMP = () => {
 
     const googleMapsProduct = (product) => {
         window.open("https://www.google.es/maps?q="+product.latitud+","+product.longitud);
-        // setProduct(product);
-        // setDeleteProductDialog(true);
     }
 
     const idBodyTemplate = (rowData) => {
@@ -275,12 +317,12 @@ export const FlagrantesMP = () => {
                             </div>
                             <div className="field col">
                                 <div className="field col">
-                                    <label htmlFor="situacionJuridica">Situacion Juridica</label>
+                                    <label htmlFor="situacionJuridica">Disposición</label>
                                     <Dropdown id="situacionJuridica" options={state} value={product.situacionJuridica} onChange={(e) => onInputChange(e, 'situacionJuridica')} />
                                 </div>
                                 <div className="field col">
-                                    <label htmlFor="sentencia">Sentencia</label>
-                                    <Dropdown id="sentencia" options={state} value={product.sentencia} onChange={(e) => onInputChange(e, 'sentencia')} />
+                                    <label htmlFor="descripcion">Motivo</label>
+                                    <Dropdown id="descripcion" options={det} value={product.descripcion} onChange={(e) => onInputChange(e, 'descripcion')} />
                                 </div>
                             </div>
                         </div>
