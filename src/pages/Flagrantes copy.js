@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from "react-router-dom";
 import axios from 'axios';
-import Cookies from 'universal-cookie';
 
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
@@ -13,8 +12,7 @@ import { Divider } from 'primereact/divider';
 import { Dropdown } from "primereact/dropdown";
 import { environment } from "../components/baseUrl";
 
-export const FlagrantesMP = () => {
-    const cookies = new Cookies();
+export const Flagrantes = () => {
 
     let empty = {
         id: null,
@@ -24,75 +22,34 @@ export const FlagrantesMP = () => {
         sentencia: '',
         descripcion:'',
         latitud: '',
-        altitud: '',
+        longitud: '',
         usuarioRegistro: '',
         fecRegistro: null,
         estadoFlagrante: '',
         estado: true
     };
 
-    let dempty = {
-        id: null,
-        descripcion: '',
-        dependencia: '',
-        usuarioRegistro: '',
-        fecRegistro: null,
-        idFlagrancia: null
-    };
-
     const state = [
-        "Libertad",
-        "Incoación de proceso inmediato"
+        "Ministerio Publico",
+        "Poder Judicial",
+        "Finalizado",
     ];
-
-    const libertad = [
-        "Principio de Oportunidad",
-        "Corte de proceso por Menor de Edad",
-        "No es delito",
-        "Es falta",
-        "opcion 5",
-        "opcion 6"
-    ];
-
-    const pi = [
-        "Opcion 1",
-        "Opcion 2",
-        "Opcion 3",
-        "Opcion 4",
-        "Opcion 5",
-        "Opcion 6"
-    ];
-
 
     const baseUrl = environment.baseUrl + "flagrancia/";
     const [data, setData] = useState(null);
 
 
     const [productDialog, setProductDialog] = useState(false);
-    const [product, setProduct] = useState(empty);
-    const [dproduct, setDProduct] = useState(dempty);
-    const [selectedProducts, setSelectedProducts] = useState(null);
     const [deleteProductDialog, setDeleteProductDialog] = useState(false);
+    const [product, setProduct] = useState(empty);
+    const [selectedProducts, setSelectedProducts] = useState(null);
     const [submitted, setSubmitted] = useState(false);
     const [globalFilter, setGlobalFilter] = useState(null);
     const toast = useRef(null);
     const dt = useRef(null);
 
-    
-    function OpcionDetalle() {
-        if (product.situacionJuridica === 'Libertad' ){
-          return libertad;
-        }else if(product.situacionJuridica === 'Incoación de proceso inmediato'){
-            return pi;
-        }else{
-            return null;
-        }
-      }
-
-    const det = OpcionDetalle();
-
     const peticionGet = async () => {
-        await axios.get(baseUrl+"mp/")
+        await axios.get(baseUrl)
             .then(response => {
                 setData(response.data);
             }).catch(error => {
@@ -110,33 +67,6 @@ export const FlagrantesMP = () => {
     //         })
     // }
 
-    const peticionPost = async () => {
-        let date = new Date();
-        delete dproduct.id;
-        dproduct.descripcion = "Se resolvio por parte de "+ cookies.get('depNombre') +
-                                " otorgar al Sr.(a) "+ product.nombre +" la medida de: "+
-                                product.situacionJuridica + " por principio de "+ product.descripcion + 
-                                "de tal manera que informa para los motivos que sean requeridos.";
-        dproduct.fecRegistro = date.toLocaleString();
-        dproduct.usuarioRegistro = cookies.get('username');
-        dproduct.dependencia = cookies.get('depNombre');
-        dproduct.idFlagrancia = product.id;
-        await axios.post(environment.baseUrl + "dflagrancia/", dproduct);
-    }
-
-    const peticionPostLibertad = async () => {
-        let date = new Date();
-        delete dproduct.id;
-        dproduct.descripcion = "Se da por resuelta la situacion del Sr.(a) "+ product.nombre +" al otorgar: "+
-                                product.situacionJuridica + " por principio de "+ product.descripcion + 
-                                " de tal manera se cierra este caso con dicha informacion.";
-        dproduct.fecRegistro = date.toLocaleString();
-        dproduct.usuarioRegistro = cookies.get('username');
-        dproduct.dependencia = 'Sistema de Flagrancia';
-        dproduct.idFlagrancia = product.id;
-        await axios.post(environment.baseUrl + "dflagrancia/", dproduct);
-    }
-
     const peticionPut = async () => {
         await axios.put(baseUrl + product.id, product)
             .then(response => {
@@ -153,15 +83,6 @@ export const FlagrantesMP = () => {
             })
     }
 
-    const peticionPutEstado = async () => {
-        if(product.situacionJuridica === 'Libertad'){
-            product.estadoFlagrante = 'Resuelto';
-        }else{
-            product.estadoFlagrante = 'Poder Judicial';
-        }
-        await axios.put(baseUrl + product.id, product);
-    }
-
     useEffect(() => {
         peticionGet()
     }, []);
@@ -171,9 +92,9 @@ export const FlagrantesMP = () => {
         setProductDialog(false);
     }
 
-    // const hideDeleteProductDialog = () => {
-    //     setDeleteProductDialog(false);
-    // }
+    const hideDeleteProductDialog = () => {
+        setDeleteProductDialog(false);
+    }
 
     const saveProduct = () => {
         setSubmitted(true);
@@ -185,10 +106,7 @@ export const FlagrantesMP = () => {
                 const index = findIndexById(product.id);
                 _products[index] = _product;
                 peticionPut();
-                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Detenido Modificado', life: 3000 });
-                setTimeout(() => {
-                    peticionPost();
-                }, 1500);
+                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Deteneido Modificado', life: 3000 });
                 setProductDialog(false);
             }
             setData(_products);
@@ -202,12 +120,9 @@ export const FlagrantesMP = () => {
     }
 
     const confirmDeleteProduct = (product) => {
-        setProduct(product);
-        setDeleteProductDialog(true);
-    }
-
-    const hideDeleteProductDialog = () => {
-        setDeleteProductDialog(false);
+        window.open("https://www.google.es/maps?q="+product.latitud+","+product.longitud);
+        // setProduct(product);
+        // setDeleteProductDialog(true);
     }
 
     const deleteProduct = () => {
@@ -215,23 +130,8 @@ export const FlagrantesMP = () => {
         setData(_products);
         setDeleteProductDialog(false);
         setProduct(empty);
-        setTimeout(() => {
-            if(product.situacionJuridica === 'Libertad'){
-                peticionPostLibertad();
-            }
-        }, 1500);
-        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Completado', life: 4000 });
-        setTimeout(() => {
-            peticionPutEstado();
-        }, 1000);
+        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
     }
-
-    const deleteProductDialogFooter = (
-        <>
-            <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteProductDialog} />
-            <Button label="Si" icon="pi pi-check" className="p-button-text" onClick={deleteProduct} />
-        </>
-    );
 
     const findIndexById = (id) => {
         let index = -1;
@@ -253,9 +153,6 @@ export const FlagrantesMP = () => {
         console.log(product);
     }
 
-    const googleMapsProduct = (product) => {
-        window.open("https://www.google.es/maps?q="+product.latitud+","+product.longitud);
-    }
 
     const idBodyTemplate = (rowData) => {
         return (
@@ -284,14 +181,14 @@ export const FlagrantesMP = () => {
         );
     }
 
-    // const estadoBodyTemplate = (rowData) => {
-    //     return (
-    //         <>
-    //             {/* <span className="p-column-title">documento</span> */}
-    //             {rowData.estadoFlagrante}
-    //         </>
-    //     );
-    // }
+    const estadoBodyTemplate = (rowData) => {
+        return (
+            <>
+                {/* <span className="p-column-title">documento</span> */}
+                {rowData.estadoFlagrante}
+            </>
+        );
+    }
 
     const fechaBodyTemplate = (rowData) => {
         var dt = rowData.fecRegistro;
@@ -306,36 +203,35 @@ export const FlagrantesMP = () => {
     const actionBodyTemplate = (rowData) => {
         return (
             <div className="actions">
-                <Link to={`/timeline/${rowData.id}`} className="p-button-rounded p-button-outlined p-button mr-2" >Det.</Link>
-                <Button icon="pi pi-map-marker" className="p-button-rounded p-button-outlined p-button-warning mr-2" onClick={() => googleMapsProduct(rowData)} />
-                <Button icon="pi pi-pencil" className="p-button-rounded p-button-outlined p-button-success mr-2" onClick={() => editProduct(rowData)} />  
-                <Button icon="pi pi-check" className="p-button-rounded p-button-outlined p-button mr-2" onClick={() => confirmDeleteProduct(rowData)} />
+                <Button icon="pi pi-pencil" className="p-button-rounded p-button-outlined p-button-success mr-2" onClick={() => editProduct(rowData)} />
+                <Button icon="pi pi-map-marker" className="p-button-rounded p-button-outlined p-button-warning mr-2" onClick={() => confirmDeleteProduct(rowData)} />
+                <Link to={`/timeline/${rowData.id}`} className="p-button-rounded p-button-outlined p-button" >TimeLine</Link>
             </div>
         );
     }
 
     const header = (
         <div className="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-            <h5 className="m-0">Lista de Flagrantes</h5>
+            <h5 className="m-0">Configuracion de Flagrantes</h5>
             <span className="block mt-2 md:mt-0 p-input-icon-left">
                 <i className="pi pi-search" />
-                <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Buscar..." />
+                <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Search..." />
             </span>
         </div>
     );
 
     const productDialogFooter = (
         <>
-            <Button label="Cancelar" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
-            <Button label="Guardar" icon="pi pi-check" className="p-button-text" onClick={saveProduct} />
+            <Button label="Cancel" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
+            <Button label="Save" icon="pi pi-check" className="p-button-text" onClick={saveProduct} />
         </>
     );
-    // const deleteProductDialogFooter = (
-    //     <>
-    //         <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteProductDialog} />
-    //         <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteProduct} />
-    //     </>
-    // );
+    const deleteProductDialogFooter = (
+        <>
+            <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteProductDialog} />
+            <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteProduct} />
+        </>
+    );
 
     return (
         <div className="grid crud-demo">
@@ -350,12 +246,12 @@ export const FlagrantesMP = () => {
                         <Column field="id" header="Codigo" sortable body={idBodyTemplate}></Column>
                         <Column field="nombre" header="Nombre" sortable body={nombreBodyTemplate}></Column>
                         <Column field="documento" header="Documento" sortable body={documentoBodyTemplate}></Column>
-                        {/* <Column field="estado" header="Estado" sortable body={estadoBodyTemplate}></Column> */}
+                        <Column field="estado" header="Estado" sortable body={estadoBodyTemplate}></Column>
                         <Column field="fecRegistro" header="Fecha de Ingreso" sortable body={fechaBodyTemplate}></Column>
                         <Column body={actionBodyTemplate}></Column>
                     </DataTable>
 
-                    <Dialog visible={productDialog} style={{ width: '900px' }} header="Datos del Detenido" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
+                    <Dialog visible={productDialog} style={{ width: '600px' }} header="Datos del Detenido" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
                         <div className="grid">
                             <div className="field col">
                                 <div className="field col">
@@ -367,6 +263,10 @@ export const FlagrantesMP = () => {
                                         <label htmlFor="documento">N° Identidad</label>
                                         <InputText id="documento" value={product.documento} onChange={(e) => onInputChange(e, 'documento')} required disabled />
                                     </div>
+                                    <div className="field">
+                                        <label htmlFor="estado">Estado</label>
+                                        <Dropdown id="estado" options={state} value={product.estadoFlagrante} onChange={(e) => onInputChange(e, 'estadoFlagrante')} />
+                                    </div>
                                 </div>
                             </div>
                             <div className="col-1">
@@ -375,22 +275,23 @@ export const FlagrantesMP = () => {
                             </div>
                             <div className="field col">
                                 <div className="field col">
-                                    <label htmlFor="situacionJuridica">Disposición</label>
+                                    <label htmlFor="situacionJuridica">Situacion Juridica</label>
                                     <Dropdown id="situacionJuridica" options={state} value={product.situacionJuridica} onChange={(e) => onInputChange(e, 'situacionJuridica')} />
                                 </div>
                                 <div className="field col">
-                                    <label htmlFor="descripcion">Motivo</label>
-                                    <Dropdown id="descripcion" options={det} value={product.descripcion} onChange={(e) => onInputChange(e, 'descripcion')} />
+                                    <label htmlFor="sentencia">Sentencia</label>
+                                    <Dropdown id="sentencia" options={state} value={product.sentencia} onChange={(e) => onInputChange(e, 'sentencia')} />
                                 </div>
                             </div>
                         </div>
 
+
                     </Dialog>
 
-                    <Dialog visible={deleteProductDialog} style={{ width: '450px' }} header="Confirmar" modal footer={deleteProductDialogFooter} onHide={hideDeleteProductDialog}>
+                    <Dialog visible={deleteProductDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteProductDialogFooter} onHide={hideDeleteProductDialog}>
                         <div className="flex align-items-center justify-content-center">
                             <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
-                            {product && <span>Recuerde que al confirmar, ya no podra editar el caso del Sr.@ <b>{product.nombre}</b></span>}
+                            {product && <span>Esta seguro de deshabilitar la sede <b>{product.nombre}</b>?</span>}
                         </div>
                     </Dialog>
                 </div>
@@ -399,4 +300,4 @@ export const FlagrantesMP = () => {
     );
 }
 
-export default FlagrantesMP;
+export default Flagrantes;

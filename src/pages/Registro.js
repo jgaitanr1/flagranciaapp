@@ -86,7 +86,7 @@ export const Registro = () => {
                 console.log(response);
                 toast.current.show({ severity: 'info', summary: 'Confirmado', detail: 'Ingreso Correcto', life: 2000 });
                 setTimeout(() => {
-                    navigate('/prueba');
+                    navigate('/tarjetaDerechos');
                 }, 2000);
             }).catch(error => {
                 console.log(error);

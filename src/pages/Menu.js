@@ -51,7 +51,7 @@ const Menu = () => {
     const adm = [{
         label: 'Favoritos',
         items: [
-            { label: 'Inicio', icon: 'pi pi-fw pi-home', to: 'prueba' },
+            { label: 'Inicio', icon: 'pi pi-fw pi-home', to: 'tarjetaDerechos' },
             { label: 'Lista de Flagrantes', icon: 'pi pi-fw pi-pencil', to: 'flagrantes' }
         ]
     },

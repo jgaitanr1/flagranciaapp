@@ -20,6 +20,7 @@ import ValidarPNP from './pages/ValidarPNP';
 import Flagrantes from './pages/Flagrantes';
 import FlagrantesMP from './pages/FlagrantesMP';
 import FlagrantesPJ from './pages/FlagrantesPJ';
+import TarjetaDerechos from './pages/TarjetaDerechos';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
       <Routes>
         <Route exact path="/" element={<Menu />} > 
           <Route exact path ="prueba" element={ <Prueba />}/>
+          <Route exact path ="tarjetaDerechos" element={ <TarjetaDerechos />}/>
           <Route exact path ="timeline/:id" element={ <TimelineDemo />}/>
           <Route exact path ="registro" element={ <Registro />}/>  
           <Route exact path ="ingresoPNP" element={ <IngresoPNP />}/>
