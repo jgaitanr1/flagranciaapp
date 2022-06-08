@@ -69,7 +69,6 @@ export const FlagrantesMP = () => {
 
 
     const [productDialog, setProductDialog] = useState(false);
-    // const [deleteProductDialog, setDeleteProductDialog] = useState(false);
     const [product, setProduct] = useState(empty);
     const [dproduct, setDProduct] = useState(dempty);
     const [selectedProducts, setSelectedProducts] = useState(null);
