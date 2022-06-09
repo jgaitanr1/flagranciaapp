@@ -20,6 +20,13 @@ const Menu = () => {
     const copyTooltipRef = useRef();
 
     const pnp = [{
+        label: 'Favoritos',
+        items: [
+            { label: 'Inicio', icon: 'pi pi-fw pi-home', to: 'tarjetaDerechos' },
+            { label: 'Buscar Flagrantes', icon: 'pi pi-fw pi-pencil', to: 'flagrantes' }
+        ]
+    },
+    {
         label: 'Policia Nacional', icon: 'pi pi-fw pi-clone',
         items: [
             { label: 'Ingreso a Sede', icon: 'pi pi-fw pi-map-marker', to: 'ingresoPNP' },
@@ -35,6 +42,13 @@ const Menu = () => {
     }]
 
     const mp = [{
+        label: 'Favoritos',
+        items: [
+            { label: 'Inicio', icon: 'pi pi-fw pi-home', to: 'tarjetaDerechos' },
+            { label: 'Buscar Flagrantes', icon: 'pi pi-fw pi-pencil', to: 'flagrantes' }
+        ]
+    },
+    {
         label: 'Ministerio Publico', icon: 'pi pi-fw pi-clone',
         items: [
             { label: 'Lista de Flagrantes', icon: 'pi pi-fw pi-pencil', to: 'flagrantesMP' }
@@ -42,9 +56,16 @@ const Menu = () => {
     }]
 
     const pj = [{
+        label: 'Favoritos',
+        items: [
+            { label: 'Inicio', icon: 'pi pi-fw pi-home', to: 'tarjetaDerechos' },
+            { label: 'Buscar Flagrantes', icon: 'pi pi-fw pi-pencil', to: 'flagrantes' }
+        ]
+    },
+    {
         label: 'Poder Judicial', icon: 'pi pi-fw pi-clone',
         items: [
-            { label: 'Lista de Flagrantes', icon: 'pi pi-fw pi-pencil', to: 'flagrantesPJ' }
+            { label: 'Buscar Flagrantes', icon: 'pi pi-fw pi-pencil', to: 'flagrantesPJ' }
         ]
     }]
 
