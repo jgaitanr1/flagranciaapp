@@ -52,6 +52,9 @@ export const Registro = () => {
         })
     }
 
+
+    
+
     const onInputChange = (e, name) => {
         const val = (e.target && e.target.value) || '';
         let _entidad = { ...entidad };
@@ -74,6 +77,9 @@ export const Registro = () => {
         let date = new Date();
         // let output = String(date.getDate()).padStart(2, '0') + '/' + String(date.getMonth() + 1).padStart(2, '0') + '/' + date.getFullYear();
         setDisable(true);
+        if(entidad.tipoArresto === ''){
+            entidad.tipoArresto = 'Policial';
+        }
         entidad.fecRegistro = date.toLocaleString();
         entidad.usuarioRegistro = cookies.get('username');
         entidad.estadoFlagrante = 'Registrado';

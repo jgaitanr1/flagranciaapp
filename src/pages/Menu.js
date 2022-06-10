@@ -23,7 +23,7 @@ const Menu = () => {
         label: 'Favoritos',
         items: [
             { label: 'Inicio', icon: 'pi pi-fw pi-home', to: 'tarjetaDerechos' },
-            { label: 'Buscar Flagrantes', icon: 'pi pi-fw pi-pencil', to: 'flagrantes' }
+            { label: 'Buscar Flagrantes', icon: 'pi pi-fw pi-desktop', to: 'flagrantes' }
         ]
     },
     {
@@ -37,6 +37,7 @@ const Menu = () => {
     const patrulla = [{
         label: 'Policia Nacional', icon: 'pi pi-fw pi-clone',
         items: [
+            { label: 'Tarjeta de Derechos', icon: 'pi pi-fw pi-home', to: 'tarjetaDerechos' },
             { label: 'Registro', icon: 'pi pi-fw pi-user-edit', to: 'registro' }
         ]
     }]
@@ -45,7 +46,7 @@ const Menu = () => {
         label: 'Favoritos',
         items: [
             { label: 'Inicio', icon: 'pi pi-fw pi-home', to: 'tarjetaDerechos' },
-            { label: 'Buscar Flagrantes', icon: 'pi pi-fw pi-pencil', to: 'flagrantes' }
+            { label: 'Buscar Flagrantes', icon: 'pi pi-fw pi-desktop', to: 'flagrantes' }
         ]
     },
     {
@@ -59,7 +60,7 @@ const Menu = () => {
         label: 'Favoritos',
         items: [
             { label: 'Inicio', icon: 'pi pi-fw pi-home', to: 'tarjetaDerechos' },
-            { label: 'Buscar Flagrantes', icon: 'pi pi-fw pi-pencil', to: 'flagrantes' }
+            { label: 'Buscar Flagrantes', icon: 'pi pi-fw pi-desktop', to: 'flagrantes' }
         ]
     },
     {
@@ -73,7 +74,7 @@ const Menu = () => {
         label: 'Favoritos',
         items: [
             { label: 'Inicio', icon: 'pi pi-fw pi-home', to: 'tarjetaDerechos' },
-            { label: 'Lista de Flagrantes', icon: 'pi pi-fw pi-pencil', to: 'flagrantes' }
+            { label: 'Lista de Flagrantes', icon: 'pi pi-fw pi-desktop', to: 'flagrantes' }
         ]
     },
     {

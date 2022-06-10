@@ -22,7 +22,7 @@ export const FlagrantesMP = () => {
         documento: '',
         situacionJuridica: '',
         sentencia: '',
-        descripcion:'',
+        descripcion: '',
         latitud: '',
         altitud: '',
         usuarioRegistro: '',
@@ -78,21 +78,21 @@ export const FlagrantesMP = () => {
     const toast = useRef(null);
     const dt = useRef(null);
 
-    
+
     function OpcionDetalle() {
-        if (product.situacionJuridica === 'Libertad' ){
-          return libertad;
-        }else if(product.situacionJuridica === 'Incoación de proceso inmediato'){
+        if (product.situacionJuridica === 'Libertad') {
+            return libertad;
+        } else if (product.situacionJuridica === 'Incoación de proceso inmediato') {
             return pi;
-        }else{
+        } else {
             return null;
         }
-      }
+    }
 
     const det = OpcionDetalle();
 
     const peticionGet = async () => {
-        await axios.get(baseUrl+"mp/")
+        await axios.get(baseUrl + "mp/")
             .then(response => {
                 setData(response.data);
             }).catch(error => {
@@ -113,10 +113,10 @@ export const FlagrantesMP = () => {
     const peticionPost = async () => {
         let date = new Date();
         delete dproduct.id;
-        dproduct.descripcion = "Se resolvio por parte de "+ cookies.get('depNombre') +
-                                " otorgar al Sr.(a) "+ product.nombre +" la medida de: "+
-                                product.situacionJuridica + " por principio de "+ product.descripcion + 
-                                "de tal manera que informa para los motivos que sean requeridos.";
+        dproduct.descripcion = "Se resolvio por parte de " + cookies.get('depNombre') +
+            " otorgar al Sr.(a) " + product.nombre + " la medida de: " +
+            product.situacionJuridica + " por principio de " + product.descripcion +
+            "de tal manera que informa para los motivos que sean requeridos.";
         dproduct.fecRegistro = date.toLocaleString();
         dproduct.usuarioRegistro = cookies.get('username');
         dproduct.dependencia = cookies.get('depNombre');
@@ -127,9 +127,9 @@ export const FlagrantesMP = () => {
     const peticionPostLibertad = async () => {
         let date = new Date();
         delete dproduct.id;
-        dproduct.descripcion = "Se da por resuelta la situacion del Sr.(a) "+ product.nombre +" al otorgar: "+
-                                product.situacionJuridica + " por principio de "+ product.descripcion + 
-                                " de tal manera se cierra este caso con dicha informacion.";
+        dproduct.descripcion = "Se da por resuelta la situacion del Sr.(a) " + product.nombre + " al otorgar: " +
+            product.situacionJuridica + " por principio de " + product.descripcion +
+            " de tal manera se cierra este caso con dicha informacion.";
         dproduct.fecRegistro = date.toLocaleString();
         dproduct.usuarioRegistro = cookies.get('username');
         dproduct.dependencia = 'Sistema de Flagrancia';
@@ -154,9 +154,9 @@ export const FlagrantesMP = () => {
     }
 
     const peticionPutEstado = async () => {
-        if(product.situacionJuridica === 'Libertad'){
+        if (product.situacionJuridica === 'Libertad') {
             product.estadoFlagrante = 'Resuelto';
-        }else{
+        } else {
             product.estadoFlagrante = 'Poder Judicial';
         }
         await axios.put(baseUrl + product.id, product);
@@ -215,11 +215,9 @@ export const FlagrantesMP = () => {
         setData(_products);
         setDeleteProductDialog(false);
         setProduct(empty);
-        setTimeout(() => {
-            if(product.situacionJuridica === 'Libertad'){
-                peticionPostLibertad();
-            }
-        }, 1500);
+        if (product.situacionJuridica === 'Libertad') {
+            peticionPostLibertad();
+        }
         toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Completado', life: 4000 });
         setTimeout(() => {
             peticionPutEstado();
@@ -254,7 +252,7 @@ export const FlagrantesMP = () => {
     }
 
     const googleMapsProduct = (product) => {
-        window.open("https://www.google.es/maps?q="+product.latitud+","+product.longitud);
+        window.open("https://www.google.es/maps?q=" + product.latitud + "," + product.longitud);
     }
 
     const idBodyTemplate = (rowData) => {
@@ -284,14 +282,14 @@ export const FlagrantesMP = () => {
         );
     }
 
-    // const estadoBodyTemplate = (rowData) => {
-    //     return (
-    //         <>
-    //             {/* <span className="p-column-title">documento</span> */}
-    //             {rowData.estadoFlagrante}
-    //         </>
-    //     );
-    // }
+    const estadoBodyTemplate = (rowData) => {
+        return (
+            <>
+                {/* <span className="p-column-title">documento</span> */}
+                {rowData.estadoFlagrante}
+            </>
+        );
+    }
 
     const fechaBodyTemplate = (rowData) => {
         var dt = rowData.fecRegistro;
@@ -308,7 +306,7 @@ export const FlagrantesMP = () => {
             <div className="actions">
                 <Link to={`/timeline/${rowData.id}`} className="p-button-rounded p-button-outlined p-button mr-2" >Det.</Link>
                 <Button icon="pi pi-map-marker" className="p-button-rounded p-button-outlined p-button-warning mr-2" onClick={() => googleMapsProduct(rowData)} />
-                <Button icon="pi pi-pencil" className="p-button-rounded p-button-outlined p-button-success mr-2" onClick={() => editProduct(rowData)} />  
+                <Button icon="pi pi-pencil" className="p-button-rounded p-button-outlined p-button-success mr-2" onClick={() => editProduct(rowData)} />
                 <Button icon="pi pi-check" className="p-button-rounded p-button-outlined p-button mr-2" onClick={() => confirmDeleteProduct(rowData)} />
             </div>
         );
@@ -350,7 +348,7 @@ export const FlagrantesMP = () => {
                         <Column field="id" header="Codigo" sortable body={idBodyTemplate}></Column>
                         <Column field="nombre" header="Nombre" sortable body={nombreBodyTemplate}></Column>
                         <Column field="documento" header="Documento" sortable body={documentoBodyTemplate}></Column>
-                        {/* <Column field="estado" header="Estado" sortable body={estadoBodyTemplate}></Column> */}
+                        <Column field="estado" header="Estado" sortable body={estadoBodyTemplate}></Column>
                         <Column field="fecRegistro" header="Fecha de Ingreso" sortable body={fechaBodyTemplate}></Column>
                         <Column body={actionBodyTemplate}></Column>
                     </DataTable>
@@ -390,7 +388,7 @@ export const FlagrantesMP = () => {
                     <Dialog visible={deleteProductDialog} style={{ width: '450px' }} header="Confirmar" modal footer={deleteProductDialogFooter} onHide={hideDeleteProductDialog}>
                         <div className="flex align-items-center justify-content-center">
                             <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
-                            {product && <span>Recuerde que al confirmar, ya no podra editar el caso del Sr.@ <b>{product.nombre}</b></span>}
+                            {product && <span>Recuerde que al confirmar, ya no podra editar el caso del Sr.(a) <b>{product.nombre}</b></span>}
                         </div>
                     </Dialog>
                 </div>
