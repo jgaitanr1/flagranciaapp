@@ -18,6 +18,8 @@ export const Registro = () => {
         documento: '',
         situacionJuridica: '',
         sentencia: '',
+        audiencia: '',
+        acusacion: '',
         descripcion:'',
         latitud: '',
         longitud: '',
@@ -39,9 +41,6 @@ export const Registro = () => {
 
     let navigate = useNavigate();
 
-    useEffect(() => {
-        geopos();
-    }, []);
 
     const geopos = () => {
         navigator.geolocation.getCurrentPosition(position => {
@@ -51,8 +50,10 @@ export const Registro = () => {
             entidad.longitud = lon + '';
         })
     }
-
-
+    
+    useEffect(() => {
+        geopos();
+    }, []);
     
 
     const onInputChange = (e, name) => {
@@ -82,7 +83,7 @@ export const Registro = () => {
         }
         entidad.fecRegistro = date.toLocaleString();
         entidad.usuarioRegistro = cookies.get('username');
-        entidad.estadoFlagrante = 'Registrado';
+        entidad.estadoFlagrante = 'Detenido';
         // entidad.situacionJuridica = 'pendiente';
         // entidad.sentencia = 'pendiente';
 

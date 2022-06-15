@@ -52,7 +52,8 @@ const Menu = () => {
     {
         label: 'Ministerio Publico', icon: 'pi pi-fw pi-clone',
         items: [
-            { label: 'Lista de Flagrantes', icon: 'pi pi-fw pi-pencil', to: 'flagrantesMP' }
+            { label: 'Nuevos Ingresos', icon: 'pi pi-fw pi-star', to: 'pendientePNP' },
+            { label: 'Pendientes de Calificar', icon: 'pi pi-fw pi-pencil', to: 'flagrantesMP' }
         ]
     }]
 
@@ -66,7 +67,9 @@ const Menu = () => {
     {
         label: 'Poder Judicial', icon: 'pi pi-fw pi-clone',
         items: [
-            { label: 'Buscar Flagrantes', icon: 'pi pi-fw pi-pencil', to: 'flagrantesPJ' }
+            { label: 'Nuevos Ingresos', icon: 'pi pi-fw pi-star', to: 'pendientePNP' },
+            { label: 'Programar Audiencia', icon: 'pi pi-fw pi-calendar', to: 'flagrantesAudiencia' },
+            { label: 'Registrar Sentencia', icon: 'pi pi-fw pi-ban', to: 'flagrantesPJ' }
         ]
     }]
 
@@ -80,21 +83,24 @@ const Menu = () => {
     {
         label: 'Policia Nacional', icon: 'pi pi-fw pi-clone',
         items: [
-            { label: 'Registro', icon: 'pi pi-fw pi-user-edit', to: 'registro' },
             { label: 'Ingreso a Sede', icon: 'pi pi-fw pi-map-marker', to: 'ingresoPNP' },
-            { label: 'Validar Flagrante', icon: 'pi pi-fw pi-id-card', to: 'validarPNP' }
+            { label: 'Validar Flagrante', icon: 'pi pi-fw pi-id-card', to: 'validarPNP' },
+            { label: 'Registro', icon: 'pi pi-fw pi-user-edit', to: 'registro' }
         ]
     },
     {
         label: 'Ministerio Publico', icon: 'pi pi-fw pi-clone',
         items: [
-            { label: 'Lista de Flagrantes', icon: 'pi pi-fw pi-pencil', to: 'flagrantesMP' }
+            { label: 'Nuevos Ingresos', icon: 'pi pi-fw pi-star', to: 'pendientePNP' },
+            { label: 'Pendientes de Calificar', icon: 'pi pi-fw pi-pencil', to: 'flagrantesMP' }
         ]
     },
     {
         label: 'Poder Judicial', icon: 'pi pi-fw pi-clone',
         items: [
-            { label: 'Lista de Flagrantes', icon: 'pi pi-fw pi-pencil', to: 'flagrantesPJ' }
+            { label: 'Nuevos Ingresos', icon: 'pi pi-fw pi-star', to: 'pendientePNP' },
+            { label: 'Programar Audiencia', icon: 'pi pi-fw pi-calendar', to: 'flagrantesAudiencia' },
+            { label: 'Registrar Sentencia', icon: 'pi pi-fw pi-ban', to: 'flagrantesPJ' }
         ]
     }]
 

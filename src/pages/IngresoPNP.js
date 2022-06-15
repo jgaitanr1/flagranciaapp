@@ -22,6 +22,8 @@ export const IngresoPNP = () => {
         documento: '',
         situacionJuridica: '',
         sentencia: '',
+        audiencia: '',
+        acusacion: '',
         descripcion:'',
         latitud: '',
         altitud: '',
@@ -53,7 +55,7 @@ export const IngresoPNP = () => {
     const dt = useRef(null);
 
     const peticionGet = async () => {
-        await axios.get(baseUrl+'registrado/')
+        await axios.get(baseUrl+'detenido/')
             .then(response => {
                 setData(response.data);
             }).catch(error => {

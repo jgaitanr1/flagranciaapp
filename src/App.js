@@ -20,7 +20,9 @@ import ValidarPNP from './pages/ValidarPNP';
 import Flagrantes from './pages/Flagrantes';
 import FlagrantesMP from './pages/FlagrantesMP';
 import FlagrantesPJ from './pages/FlagrantesPJ';
+import FlagrantesAudiencia from './pages/FlagrantesAudiencia';
 import TarjetaDerechos from './pages/TarjetaDerechos';
+import PendientePNP from './pages/PendientePNP';
 
 function App() {
   return (
@@ -33,9 +35,11 @@ function App() {
           <Route exact path ="registro" element={ <Registro />}/>  
           <Route exact path ="ingresoPNP" element={ <IngresoPNP />}/>
           <Route exact path ="validarPNP" element={ <ValidarPNP />}/>
+          <Route exact path ="pendientePNP" element={ <PendientePNP/>}/>
           <Route exact path ="flagrantes" element={ <Flagrantes />}/>
           <Route exact path ="flagrantesMP" element={ <FlagrantesMP />}/>
           <Route exact path ="flagrantesPJ" element={ <FlagrantesPJ />}/>
+          <Route exact path ="flagrantesAudiencia" element={ <FlagrantesAudiencia />}/>
         </Route>
         <Route exact path="/login" element={<Login />} />    
       </Routes>

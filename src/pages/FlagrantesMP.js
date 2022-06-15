@@ -22,9 +22,11 @@ export const FlagrantesMP = () => {
         documento: '',
         situacionJuridica: '',
         sentencia: '',
+        audiencia: '',
+        acusacion: '',
         descripcion: '',
         latitud: '',
-        altitud: '',
+        longitud: '',
         usuarioRegistro: '',
         fecRegistro: null,
         estadoFlagrante: '',
@@ -55,18 +57,11 @@ export const FlagrantesMP = () => {
     ];
 
     const pi = [
-        "Opcion 1",
-        "Opcion 2",
-        "Opcion 3",
-        "Opcion 4",
-        "Opcion 5",
-        "Opcion 6"
+        "Proceso Inmediato"
     ];
-
 
     const baseUrl = environment.baseUrl + "flagrancia/";
     const [data, setData] = useState(null);
-
 
     const [productDialog, setProductDialog] = useState(false);
     const [product, setProduct] = useState(empty);
@@ -77,7 +72,6 @@ export const FlagrantesMP = () => {
     const [globalFilter, setGlobalFilter] = useState(null);
     const toast = useRef(null);
     const dt = useRef(null);
-
 
     function OpcionDetalle() {
         if (product.situacionJuridica === 'Libertad') {
@@ -116,12 +110,13 @@ export const FlagrantesMP = () => {
         dproduct.descripcion = "Se resolvio por parte de " + cookies.get('depNombre') +
             " otorgar al Sr.(a) " + product.nombre + " la medida de: " +
             product.situacionJuridica + " por principio de " + product.descripcion +
-            "de tal manera que informa para los motivos que sean requeridos.";
+            " de tal manera que informa para los motivos que sean requeridos.";
         dproduct.fecRegistro = date.toLocaleString();
         dproduct.usuarioRegistro = cookies.get('username');
         dproduct.dependencia = cookies.get('depNombre');
         dproduct.idFlagrancia = product.id;
         await axios.post(environment.baseUrl + "dflagrancia/", dproduct);
+        console.log("detalle ingresado");
     }
 
     const peticionPostLibertad = async () => {
@@ -144,13 +139,25 @@ export const FlagrantesMP = () => {
                 dataNueva.map(u => {
                     if (u.id === product.id) {
                         u.nombre = product.nombre;
-                        u.direccion = product.direccion;
+                        u.documento = product.documento;
+                        u.situacionJuridica = product.situacionJuridica;
+                        u.sentencia = product.sentencia;
+                        u.audiencia = product.audiencia;
+                        u.acusacion = product.acusacion;
+                        u.descripcion = product.descripcion;
+                        u.latitud = product.latitud;
+                        u.longitud = product.longitud;
+                        u.usuarioRegistro = product.usuarioRegistro;
+                        u.fecRegistro = product.fecRegistro;
+                        u.estadoFlagrante = product.estadoFlagrante;
+                        u.estado = product.estado;
                     }
                 });
                 setData(dataNueva);
             }).catch(error => {
                 console.log(error);
             })
+        console.log("flagrante modificado");
     }
 
     const peticionPutEstado = async () => {
@@ -159,6 +166,7 @@ export const FlagrantesMP = () => {
         } else {
             product.estadoFlagrante = 'Poder Judicial';
         }
+        console.log(product);
         await axios.put(baseUrl + product.id, product);
     }
 
@@ -215,12 +223,14 @@ export const FlagrantesMP = () => {
         setData(_products);
         setDeleteProductDialog(false);
         setProduct(empty);
-        if (product.situacionJuridica === 'Libertad') {
+        if (product.situacionJuridica == 'Libertad') {
             peticionPostLibertad();
+            console.log("ingreso post libertad");
         }
         toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Completado', life: 4000 });
         setTimeout(() => {
             peticionPutEstado();
+            console.log("modifica estado flagrancia");
         }, 1000);
     }
 

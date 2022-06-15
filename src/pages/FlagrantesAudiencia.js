@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 
@@ -9,8 +9,9 @@ import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
-import { Divider } from 'primereact/divider';
-import { Dropdown } from "primereact/dropdown";
+import { InputNumber } from 'primereact/inputnumber';
+import { Calendar } from 'primereact/calendar';
+import { Message } from 'primereact/message';
 import { environment } from "../components/baseUrl";
 
 export const FlagrantesPJ = () => {
@@ -24,13 +25,17 @@ export const FlagrantesPJ = () => {
         sentencia: '',
         audiencia: '',
         acusacion: '',
-        descripcion:'',
+        descripcion: '',
         latitud: '',
         altitud: '',
         usuarioRegistro: '',
         fecRegistro: null,
         estadoFlagrante: '',
-        estado: true
+        estado: true,
+        fec: '',
+        hour: '',
+        min: '',
+        ampm: ''
     };
 
     let dempty = {
@@ -42,33 +47,9 @@ export const FlagrantesPJ = () => {
         idFlagrancia: null
     };
 
-    const state = [
-        "Libertad",
-        "Incoación de proceso inmediato"
-    ];
-
-    const libertad = [
-        "Principio de Oportunidad",
-        "Corte de proceso por Menor de Edad",
-        "No es delito",
-        "Es falta",
-        "opcion 5",
-        "opcion 6"
-    ];
-
-    const pi = [
-        "Opcion 1",
-        "Opcion 2",
-        "Opcion 3",
-        "Opcion 4",
-        "Opcion 5",
-        "Opcion 6"
-    ];
-
-
     const baseUrl = environment.baseUrl + "flagrancia/";
     const [data, setData] = useState(null);
-
+    let date = new Date();
 
     const [productDialog, setProductDialog] = useState(false);
     const [product, setProduct] = useState(empty);
@@ -80,21 +61,8 @@ export const FlagrantesPJ = () => {
     const toast = useRef(null);
     const dt = useRef(null);
 
-    
-    function OpcionDetalle() {
-        if (product.situacionJuridica === 'Libertad' ){
-          return libertad;
-        }else if(product.situacionJuridica === 'Incoación de proceso inmediato'){
-            return pi;
-        }else{
-            return null;
-        }
-      }
-
-    const det = OpcionDetalle();
-
     const peticionGet = async () => {
-        await axios.get(baseUrl+"pj/")
+        await axios.get(baseUrl + "pj/")
             .then(response => {
                 setData(response.data);
             }).catch(error => {
@@ -102,23 +70,12 @@ export const FlagrantesPJ = () => {
             })
     }
 
-    // const peticionPost = async () => {
-    //     delete product.id;
-    //     await axios.post(baseUrl, product)
-    //         .then(response => {
-    //             setData(data.concat(response.data));
-    //         }).catch(error => {
-    //             console.log(error);
-    //         })
-    // }
-
     const peticionPost = async () => {
-        let date = new Date();
         delete dproduct.id;
-        dproduct.descripcion = "Se resolvio por parte de "+ cookies.get('depNombre') +
-                                " otorgar al Sr.(a) "+ product.nombre +" la medida de: "+
-                                product.situacionJuridica + " por principio de "+ product.descripcion + 
-                                "de tal manera que informa para los motivos que sean requeridos.";
+        dproduct.descripcion = "Se ingreso la fecha de audiencia " + product.fec.toLocaleDateString() +
+            " en el horario"+ product.hour+":"+product.min +" al Sr.(a) " + product.nombre
+             + " por el usuario "+cookies.get('username') +" de la dependencia "+cookies.get('depNombre')
+             + " se informa de ello mediante este comunicado";
         dproduct.fecRegistro = date.toLocaleString();
         dproduct.usuarioRegistro = cookies.get('username');
         dproduct.dependencia = cookies.get('depNombre');
@@ -126,27 +83,27 @@ export const FlagrantesPJ = () => {
         await axios.post(environment.baseUrl + "dflagrancia/", dproduct);
     }
 
-    const peticionPostLibertad = async () => {
-        let date = new Date();
-        delete dproduct.id;
-        dproduct.descripcion = "Se da por resuelta la situacion del Sr.(a) "+ product.nombre +" al otorgar: "+
-                                product.situacionJuridica + " por principio de "+ product.descripcion + 
-                                " de tal manera se cierra este caso con dicha informacion.";
-        dproduct.fecRegistro = date.toLocaleString();
-        dproduct.usuarioRegistro = cookies.get('username');
-        dproduct.dependencia = 'Sistema de Flagrancia';
-        dproduct.idFlagrancia = product.id;
-        await axios.post(environment.baseUrl + "dflagrancia/", dproduct);
-    }
 
     const peticionPut = async () => {
+        product.audiencia = product.fec.toLocaleDateString()+" "+product.hour+":"+product.min;
         await axios.put(baseUrl + product.id, product)
             .then(response => {
                 var dataNueva = data;
                 dataNueva.map(u => {
                     if (u.id === product.id) {
                         u.nombre = product.nombre;
-                        u.direccion = product.direccion;
+                        u.documento = product.documento;
+                        u.situacionJuridica = product.situacionJuridica;
+                        u.sentencia = product.sentencia;
+                        u.audiencia = product.audiencia;
+                        u.acusacion = product.acusacion;
+                        u.descripcion = product.descripcion;
+                        u.latitud = product.latitud;
+                        u.longitud = product.longitud;
+                        u.usuarioRegistro = product.usuarioRegistro;
+                        u.fecRegistro = product.fecRegistro;
+                        u.estadoFlagrante = product.estadoFlagrante;
+                        u.estado = product.estado;
                     }
                 });
                 setData(dataNueva);
@@ -156,9 +113,9 @@ export const FlagrantesPJ = () => {
     }
 
     const peticionPutEstado = async () => {
-        if(product.situacionJuridica === 'Libertad'){
+        if (product.situacionJuridica === 'Libertad') {
             product.estadoFlagrante = 'Resuelto';
-        }else{
+        } else {
             product.estadoFlagrante = 'Poder Judicial';
         }
         await axios.put(baseUrl + product.id, product);
@@ -203,10 +160,10 @@ export const FlagrantesPJ = () => {
         setProductDialog(true);
     }
 
-    const confirmDeleteProduct = (product) => {
-        setProduct(product);
-        setDeleteProductDialog(true);
-    }
+    // const confirmDeleteProduct = (product) => {
+    //     setProduct(product);
+    //     setDeleteProductDialog(true);
+    // }
 
     const hideDeleteProductDialog = () => {
         setDeleteProductDialog(false);
@@ -217,11 +174,6 @@ export const FlagrantesPJ = () => {
         setData(_products);
         setDeleteProductDialog(false);
         setProduct(empty);
-        setTimeout(() => {
-            if(product.situacionJuridica === 'Libertad'){
-                peticionPostLibertad();
-            }
-        }, 1500);
         toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Completado', life: 4000 });
         setTimeout(() => {
             peticionPutEstado();
@@ -255,10 +207,6 @@ export const FlagrantesPJ = () => {
         console.log(product);
     }
 
-    const googleMapsProduct = (product) => {
-        window.open("https://www.google.es/maps?q="+product.latitud+","+product.longitud);
-    }
-
     const idBodyTemplate = (rowData) => {
         return (
             <>
@@ -286,14 +234,20 @@ export const FlagrantesPJ = () => {
         );
     }
 
-    // const estadoBodyTemplate = (rowData) => {
-    //     return (
-    //         <>
-    //             {/* <span className="p-column-title">documento</span> */}
-    //             {rowData.estadoFlagrante}
-    //         </>
-    //     );
-    // }
+    const audienciaBodyTemplate = (rowData) => {
+        let dato = "";
+        if (rowData.audiencia === "") {
+            dato = "Audiencia no programada"
+        } else {
+            dato = rowData.audiencia;
+        }
+        return (
+            <>
+                {/* <span className="p-column-title">documento</span> */}
+                {dato}
+            </>
+        );
+    }
 
     const fechaBodyTemplate = (rowData) => {
         var dt = rowData.fecRegistro;
@@ -308,10 +262,10 @@ export const FlagrantesPJ = () => {
     const actionBodyTemplate = (rowData) => {
         return (
             <div className="actions">
-                <Link to={`/timeline/${rowData.id}`} className="p-button-rounded p-button-outlined p-button mr-2" >Det.</Link>
-                <Button icon="pi pi-map-marker" className="p-button-rounded p-button-outlined p-button-warning mr-2" onClick={() => googleMapsProduct(rowData)} />
-                <Button icon="pi pi-pencil" className="p-button-rounded p-button-outlined p-button-success mr-2" onClick={() => editProduct(rowData)} />  
-                <Button icon="pi pi-check" className="p-button-rounded p-button-outlined p-button mr-2" onClick={() => confirmDeleteProduct(rowData)} />
+                {/* <Link to={`/timeline/${rowData.id}`} className="p-button-rounded p-button-outlined p-button mr-2" >Det.</Link> */}
+                {/* <Button icon="pi pi-map-marker" className="p-button-rounded p-button-outlined p-button-warning mr-2" onClick={() => googleMapsProduct(rowData)} /> */}
+                <Button icon="pi pi-calendar" className="p-button-rounded p-button-outlined p-button-success mr-2" onClick={() => editProduct(rowData)} />
+                {/* <Button icon="pi pi-check" className="p-button-rounded p-button-outlined p-button mr-2" onClick={() => confirmDeleteProduct(rowData)} /> */}
             </div>
         );
     }
@@ -352,37 +306,31 @@ export const FlagrantesPJ = () => {
                         <Column field="id" header="Codigo" sortable body={idBodyTemplate}></Column>
                         <Column field="nombre" header="Nombre" sortable body={nombreBodyTemplate}></Column>
                         <Column field="documento" header="Documento" sortable body={documentoBodyTemplate}></Column>
-                        {/* <Column field="estado" header="Estado" sortable body={estadoBodyTemplate}></Column> */}
+                        <Column field="Audiencia" header="Fecha de Audiencia" sortable body={audienciaBodyTemplate}></Column>
                         <Column field="fecRegistro" header="Fecha de Ingreso" sortable body={fechaBodyTemplate}></Column>
                         <Column body={actionBodyTemplate}></Column>
                     </DataTable>
 
-                    <Dialog visible={productDialog} style={{ width: '900px' }} header="Datos del Detenido" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
+                    <Dialog visible={productDialog} style={{ width: '500px' }} header="Datos del Detenido" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
+                        <Message severity="success" text="Recuerda Seleccionar la fecha y hora correspondiente, en caso de error o reprogramación podrás editar esta sección." />
+                        <br />
+                        <Message severity="success" text="Es necesario utilizar el formato de 24h para ingresar las horas y minutos. "/>
+                        <br />
                         <div className="grid">
                             <div className="field col">
-                                <div className="field col">
-                                    <div className="field">
-                                        <label htmlFor="name">Nombre</label>
-                                        <InputText id="nombre" name="nombre" value={product.nombre} onChange={(e) => onInputChange(e, 'nombre')} required disabled />
-                                    </div>
-                                    <div className="field">
-                                        <label htmlFor="documento">N° Identidad</label>
-                                        <InputText id="documento" value={product.documento} onChange={(e) => onInputChange(e, 'documento')} required disabled />
-                                    </div>
+                                <div className="field">
+                                    <label htmlFor="fec">Fecha de Audiencia</label>
+                                    <Calendar minDate={date} showIcon showButtonBar value={product.fec} onChange={(e) => onInputChange(e, 'fec')}></Calendar>
                                 </div>
-                            </div>
-                            <div className="col-1">
-                                <Divider layout="vertical">
-                                </Divider>
-                            </div>
-                            <div className="field col">
-                                <div className="field col">
-                                    <label htmlFor="situacionJuridica">Disposición</label>
-                                    <Dropdown id="situacionJuridica" options={state} value={product.situacionJuridica} onChange={(e) => onInputChange(e, 'situacionJuridica')} />
-                                </div>
-                                <div className="field col">
-                                    <label htmlFor="descripcion">Motivo</label>
-                                    <Dropdown id="descripcion" options={det} value={product.descripcion} onChange={(e) => onInputChange(e, 'descripcion')} />
+                                <div className="formgrid grid">
+                                    <div className="field col">
+                                        <label htmlFor="hour">Hora</label>
+                                        <InputNumber value={product.hour} onValueChange={(e) => onInputChange(e, 'hour')} showButtons ></InputNumber>
+                                    </div>
+                                    <div className="field col">
+                                        <label htmlFor="min">Minutos</label>
+                                        <InputNumber value={product.min} onValueChange={(e) => onInputChange(e, 'min')} showButtons ></InputNumber>
+                                    </div>
                                 </div>
                             </div>
                         </div>

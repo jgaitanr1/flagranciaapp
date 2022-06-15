@@ -22,6 +22,8 @@ export const ValidarPNP = () => {
         documento: '',
         situacionJuridica: '',
         sentencia: '',
+        audiencia: '',
+        acusacion: '',
         descripcion:'',
         latitud: '',
         altitud: '',
@@ -71,16 +73,11 @@ export const ValidarPNP = () => {
         dproduct.usuarioRegistro = cookies.get('username');
         dproduct.dependencia = cookies.get('depNombre');
         dproduct.idFlagrancia = product.id;
-        await axios.post(environment.baseUrl + "dflagrancia/", dproduct)
-        // .then(response => {
-        //     setData(data.concat(response.data));
-        // }).catch(error => {
-        //     console.log(error);
-        // })
+        await axios.post(environment.baseUrl + "dflagrancia/", dproduct);
     }
 
     const peticionPut = async () => {
-        product.estadoFlagrante = 'Ministerio Publico';
+        product.estadoFlagrante = 'Identificado';
         await axios.put(baseUrl + product.id, product)
             // .then(response => {
             //     var dataNueva = data;
@@ -105,11 +102,11 @@ export const ValidarPNP = () => {
     }, []);
 
 
-    const confirmDeleteProduct = (product) => {
-        window.open("https://www.google.es/maps?q="+product.latitud+","+product.longitud);
-        // setProduct(product);
-        // setDeleteProductDialog(true);
-    }
+    // const confirmDeleteProduct = (product) => {
+    //     window.open("https://www.google.es/maps?q="+product.latitud+","+product.longitud);
+    //     // setProduct(product);
+    //     // setDeleteProductDialog(true);
+    // }
     
     const hideDialog = () => {
         setSubmitted(false);
@@ -205,7 +202,7 @@ export const ValidarPNP = () => {
         return (
             <div className="actions">
                 <Button icon="pi pi-pencil" className="p-button-rounded p-button-outlined p-button-success mr-2" onClick={() => editProduct(rowData)} />
-                <Button icon="pi pi-map-marker" className="p-button-rounded p-button-outlined p-button-warning mr-2" onClick={() => confirmDeleteProduct(rowData)} />
+                {/* <Button icon="pi pi-map-marker" className="p-button-rounded p-button-outlined p-button-warning mr-2" onClick={() => confirmDeleteProduct(rowData)} /> */}
                 {/* <Button icon="pi pi-image" className="p-button-rounded p-button-outlined p-button" /> */}
             </div>
         );
