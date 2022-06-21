@@ -8,10 +8,11 @@ import axios from 'axios';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Toast } from 'primereact/toast';
+import { environment } from '../components/baseUrl';
 
 function Login(props) {
 
-    const baseUrl = "https://localhost:44355/api/usuario";
+    const baseUrl = environment.baseUrl + "usuario";
     const cookies = new Cookies();
     let navigate = useNavigate();
     const toast = useRef(null);
