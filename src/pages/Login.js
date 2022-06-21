@@ -72,7 +72,7 @@ function Login(props) {
                     <div className="text-center mb-5">
                         <img src="/logos/pjudicial.svg" alt="hyper" height={100} className="mb-3" />
                         <div className="text-900 text-3xl font-medium mb-3">Corte Superior de Justicia de La Libertad</div>
-                        <span className="text-600 text-2xl font-medium line-height-3">Unidad de Flagrancia // Rumeplz</span>
+                        <span className="text-600 text-2xl font-medium line-height-3">Unidad de Flagrancia</span>
                         {/* <a className="font-medium no-underline ml-2 text-blue-500 cursor-pointer">Create today!</a> */}
                     </div>
 
