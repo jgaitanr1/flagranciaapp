@@ -163,7 +163,7 @@ export const ValidarPNP = () => {
     const idBodyTemplate = (rowData) => {
         return (
             <>
-                <span className="p-column-title">id</span>
+                {/* <span className="p-column-title">id</span> */}
                 {rowData.id}
             </>
         );
@@ -172,7 +172,7 @@ export const ValidarPNP = () => {
     const nombreBodyTemplate = (rowData) => {
         return (
             <>
-                <span className="p-column-title">nombre</span>
+                {/* <span className="p-column-title">nombre</span> */}
                 {rowData.nombre}
             </>
         );
@@ -181,7 +181,7 @@ export const ValidarPNP = () => {
     const documentoBodyTemplate = (rowData) => {
         return (
             <>
-                <span className="p-column-title">documento</span>
+                {/* <span className="p-column-title">documento</span> */}
                 {rowData.documento}
             </>
         );
@@ -192,7 +192,7 @@ export const ValidarPNP = () => {
 
         return (
             <>
-                <span className="p-column-title">fecha</span>
+                {/* <span className="p-column-title">fecha</span> */}
                 {dt.toLocaleString()}
             </>
         );
