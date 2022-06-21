@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 
@@ -9,12 +9,14 @@ import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
+import { InputTextarea } from 'primereact/inputtextarea';
 import { Divider } from 'primereact/divider';
 import { Dropdown } from "primereact/dropdown";
-import { InputTextarea } from 'primereact/inputtextarea';
 import { environment } from "../components/baseUrl";
 
-export const FlagrantesMP = () => {
+import { Message } from 'primereact/message';
+
+export const FlagrantesAcusacion = () => {
     const cookies = new Cookies();
 
     let empty = {
@@ -43,23 +45,6 @@ export const FlagrantesMP = () => {
         idFlagrancia: null
     };
 
-    const state = [
-        "Libertad",
-        "Incoación de proceso inmediato"
-    ];
-
-    const libertad = [
-        "Principio de Oportunidad",
-        "Corte de proceso por Menor de Edad",
-        "No es delito",
-        "Es falta",
-        "opcion 5",
-        "opcion 6"
-    ];
-
-    const pi = [
-        "Proceso Inmediato"
-    ];
 
     const baseUrl = environment.baseUrl + "flagrancia/";
     const [data, setData] = useState(null);
@@ -68,26 +53,15 @@ export const FlagrantesMP = () => {
     const [product, setProduct] = useState(empty);
     const [dproduct, setDProduct] = useState(dempty);
     const [selectedProducts, setSelectedProducts] = useState(null);
-    const [deleteProductDialog, setDeleteProductDialog] = useState(false);
+    // const [deleteProductDialog, setDeleteProductDialog] = useState(false);
     const [submitted, setSubmitted] = useState(false);
     const [globalFilter, setGlobalFilter] = useState(null);
     const toast = useRef(null);
     const dt = useRef(null);
 
-    function OpcionDetalle() {
-        if (product.situacionJuridica === 'Libertad') {
-            return libertad;
-        } else if (product.situacionJuridica === 'Incoación de proceso inmediato') {
-            return pi;
-        } else {
-            return null;
-        }
-    }
-
-    const det = OpcionDetalle();
 
     const peticionGet = async () => {
-        await axios.get(baseUrl + "mp/")
+        await axios.get(baseUrl + "acusacion/")
             .then(response => {
                 setData(response.data);
             }).catch(error => {
@@ -95,15 +69,6 @@ export const FlagrantesMP = () => {
             })
     }
 
-    // const peticionPost = async () => {
-    //     delete product.id;
-    //     await axios.post(baseUrl, product)
-    //         .then(response => {
-    //             setData(data.concat(response.data));
-    //         }).catch(error => {
-    //             console.log(error);
-    //         })
-    // }
 
     const peticionPost = async () => {
         let date = new Date();
@@ -120,55 +85,32 @@ export const FlagrantesMP = () => {
         console.log("detalle ingresado");
     }
 
-    const peticionPostLibertad = async () => {
-        let date = new Date();
-        delete dproduct.id;
-        dproduct.descripcion = "Se da por resuelta la situacion del Sr.(a) " + product.nombre + " al otorgar: " +
-            product.situacionJuridica + " por principio de " + product.descripcion +
-            " de tal manera se cierra este caso con dicha informacion.";
-        dproduct.fecRegistro = date.toLocaleString();
-        dproduct.usuarioRegistro = cookies.get('username');
-        dproduct.dependencia = 'Sistema de Flagrancia';
-        dproduct.idFlagrancia = product.id;
-        await axios.post(environment.baseUrl + "dflagrancia/", dproduct);
-    }
-
     const peticionPut = async () => {
-        await axios.put(baseUrl + product.id, product)
-            .then(response => {
-                var dataNueva = data;
-                dataNueva.map(u => {
-                    if (u.id === product.id) {
-                        u.nombre = product.nombre;
-                        u.documento = product.documento;
-                        u.situacionJuridica = product.situacionJuridica;
-                        u.sentencia = product.sentencia;
-                        u.audiencia = product.audiencia;
-                        u.acusacion = product.acusacion;
-                        u.descripcion = product.descripcion;
-                        u.latitud = product.latitud;
-                        u.longitud = product.longitud;
-                        u.usuarioRegistro = product.usuarioRegistro;
-                        u.fecRegistro = product.fecRegistro;
-                        u.estadoFlagrante = product.estadoFlagrante;
-                        u.estado = product.estado;
-                    }
-                });
-                setData(dataNueva);
-            }).catch(error => {
-                console.log(error);
-            })
-        console.log("flagrante modificado");
-    }
-
-    const peticionPutEstado = async () => {
-        if (product.situacionJuridica === 'Libertad') {
-            product.estadoFlagrante = 'Resuelto';
-        } else {
-            product.estadoFlagrante = 'Poder Judicial';
-        }
-        console.log(product);
         await axios.put(baseUrl + product.id, product);
+            // .then(response => {
+            //     var dataNueva = data;
+            //     dataNueva.map(u => {
+            //         if (u.id === product.id) {
+            //             u.nombre = product.nombre;
+            //             u.documento = product.documento;
+            //             u.situacionJuridica = product.situacionJuridica;
+            //             u.sentencia = product.sentencia;
+            //             u.audiencia = product.audiencia;
+            //             u.acusacion = product.acusacion;
+            //             u.descripcion = product.descripcion;
+            //             u.latitud = product.latitud;
+            //             u.longitud = product.longitud;
+            //             u.usuarioRegistro = product.usuarioRegistro;
+            //             u.fecRegistro = product.fecRegistro;
+            //             u.estadoFlagrante = product.estadoFlagrante;
+            //             u.estado = product.estado;
+            //         }
+            //     });
+            //     setData(dataNueva);
+            // }).catch(error => {
+            //     console.log(error);
+            // })
+        console.log("flagrante modificado");
     }
 
     useEffect(() => {
@@ -179,10 +121,6 @@ export const FlagrantesMP = () => {
         setSubmitted(false);
         setProductDialog(false);
     }
-
-    // const hideDeleteProductDialog = () => {
-    //     setDeleteProductDialog(false);
-    // }
 
     const saveProduct = () => {
         setSubmitted(true);
@@ -198,6 +136,10 @@ export const FlagrantesMP = () => {
                 setTimeout(() => {
                     peticionPost();
                 }, 1500);
+                _products = data.filter(val => val.id !== product.id);
+                setData(_products);
+                setProductDialog(false);
+                setProduct(empty);
                 setProductDialog(false);
             }
             setData(_products);
@@ -210,37 +152,29 @@ export const FlagrantesMP = () => {
         setProductDialog(true);
     }
 
-    const confirmDeleteProduct = (product) => {
-        setProduct(product);
-        setDeleteProductDialog(true);
-    }
+    // const confirmDeleteProduct = (product) => {
+    //     setProduct(product);
+    //     setDeleteProductDialog(true);
+    // }
 
-    const hideDeleteProductDialog = () => {
-        setDeleteProductDialog(false);
-    }
+    // const hideDeleteProductDialog = () => {
+    //     setDeleteProductDialog(false);
+    // }
 
-    const deleteProduct = () => {
-        let _products = data.filter(val => val.id !== product.id);
-        setData(_products);
-        setDeleteProductDialog(false);
-        setProduct(empty);
-        if (product.situacionJuridica == 'Libertad') {
-            peticionPostLibertad();
-            console.log("ingreso post libertad");
-        }
-        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Completado', life: 4000 });
-        setTimeout(() => {
-            peticionPutEstado();
-            console.log("modifica estado flagrancia");
-        }, 1000);
-    }
+    // const deleteProduct = () => {
+    //     let _products = data.filter(val => val.id !== product.id);
+    //     setData(_products);
+    //     setDeleteProductDialog(false);
+    //     setProduct(empty);
+    //     toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Completado', life: 4000 });
+    // }
 
-    const deleteProductDialogFooter = (
-        <>
-            <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteProductDialog} />
-            <Button label="Si" icon="pi pi-check" className="p-button-text" onClick={deleteProduct} />
-        </>
-    );
+    // const deleteProductDialogFooter = (
+    //     <>
+    //         <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteProductDialog} />
+    //         <Button label="Si" icon="pi pi-check" className="p-button-text" onClick={deleteProduct} />
+    //     </>
+    // );
 
     const findIndexById = (id) => {
         let index = -1;
@@ -262,9 +196,6 @@ export const FlagrantesMP = () => {
         console.log(product);
     }
 
-    const googleMapsProduct = (product) => {
-        window.open("https://www.google.es/maps?q=" + product.latitud + "," + product.longitud);
-    }
 
     const idBodyTemplate = (rowData) => {
         return (
@@ -302,6 +233,21 @@ export const FlagrantesMP = () => {
         );
     }
 
+    const audienciaBodyTemplate = (rowData) => {
+        let dato = "";
+        if (rowData.audiencia === "") {
+            dato = "Audiencia no programada"
+        } else {
+            dato = rowData.audiencia;
+        }
+        return (
+            <>
+                {/* <span className="p-column-title">documento</span> */}
+                {dato}
+            </>
+        );
+    }
+
     const fechaBodyTemplate = (rowData) => {
         var dt = rowData.fecRegistro;
         return (
@@ -315,10 +261,10 @@ export const FlagrantesMP = () => {
     const actionBodyTemplate = (rowData) => {
         return (
             <div className="actions">
-                <Link to={`/timeline/${rowData.id}`} className="p-button-rounded p-button-outlined p-button mr-2" >Det.</Link>
-                <Button icon="pi pi-map-marker" className="p-button-rounded p-button-outlined p-button-warning mr-2" onClick={() => googleMapsProduct(rowData)} />
+                {/* <Link to={`/timeline/${rowData.id}`} className="p-button-rounded p-button-outlined p-button mr-2" >Det.</Link> */}
+                {/* <Button icon="pi pi-map-marker" className="p-button-rounded p-button-outlined p-button-warning mr-2" onClick={() => googleMapsProduct(rowData)} /> */}
                 <Button icon="pi pi-pencil" className="p-button-rounded p-button-outlined p-button-success mr-2" onClick={() => editProduct(rowData)} />
-                <Button icon="pi pi-check" className="p-button-rounded p-button-outlined p-button mr-2" onClick={() => confirmDeleteProduct(rowData)} />
+                {/* <Button icon="pi pi-check" className="p-button-rounded p-button-outlined p-button mr-2" onClick={() => confirmDeleteProduct(rowData)} /> */}
             </div>
         );
     }
@@ -339,12 +285,6 @@ export const FlagrantesMP = () => {
             <Button label="Guardar" icon="pi pi-check" className="p-button-text" onClick={saveProduct} />
         </>
     );
-    // const deleteProductDialogFooter = (
-    //     <>
-    //         <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteProductDialog} />
-    //         <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteProduct} />
-    //     </>
-    // );
 
     return (
         <div className="grid crud-demo">
@@ -360,13 +300,16 @@ export const FlagrantesMP = () => {
                         <Column field="nombre" header="Nombre" sortable body={nombreBodyTemplate}></Column>
                         <Column field="documento" header="Documento" sortable body={documentoBodyTemplate}></Column>
                         <Column field="estado" header="Estado" sortable body={estadoBodyTemplate}></Column>
+                        <Column field="Audiencia" header="Fecha de Audiencia" sortable body={audienciaBodyTemplate}></Column>
                         <Column field="fecRegistro" header="Fecha de Ingreso" sortable body={fechaBodyTemplate}></Column>
                         <Column body={actionBodyTemplate}></Column>
                     </DataTable>
 
                     <Dialog visible={productDialog} style={{ width: '800px' }} header="Datos del Detenido" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
+                    <Message severity="success" text="Recuerda que al GUARDAR la acusacion fiscal, esta no podra ser modificada y se registrara en sistema." />
+                    <br />
                         <div className="grid">
-                        <div className="field col">
+                            <div className="field col">
                                 <div className="formgrid grid">
                                     <div className="field col">
                                         <label htmlFor="name">Nombre</label>
@@ -375,6 +318,16 @@ export const FlagrantesMP = () => {
                                     <div className="field col">
                                         <label htmlFor="documento">N° Identidad</label>
                                         <InputText id="documento" value={product.documento} onChange={(e) => onInputChange(e, 'documento')} required disabled />
+                                    </div>
+                                </div>
+                                <div className="formgrid grid">
+                                    <div className="field col">
+                                        <label htmlFor="name">Situacion Juridica</label>
+                                        <InputText id="situacionJuridica" name="situacionJuridica" value={product.situacionJuridica} onChange={(e) => onInputChange(e, 'situacionJuridica')} required disabled />
+                                    </div>
+                                    <div className="field col">
+                                        <label htmlFor="descripcion">Detalle SJ</label>
+                                        <InputText id="-descripcion" value={product.descripcion} onChange={(e) => onInputChange(e, 'descripcion')} required disabled />
                                     </div>
                                 </div>
                                 <div className="formgrid grid">
@@ -390,7 +343,7 @@ export const FlagrantesMP = () => {
                                 <div className="field col">
                                     <div className="field">
                                         <label htmlFor="acusacion">Acusación Fiscal</label>
-                                        <InputTextarea id="-acusacion" value={product.acusacion} onChange={(e) => onInputChange(e, 'acusacion')} required disabled />
+                                        <InputTextarea id="-acusacion" value={product.acusacion} onChange={(e) => onInputChange(e, 'acusacion')} required autoFocus />
                                     </div>
                                 </div>
                             </div>
@@ -398,30 +351,30 @@ export const FlagrantesMP = () => {
                                 <Divider layout="vertical">
                                 </Divider>
                             </div>
-                            <div className="field col">
+                            <div className="field col-4">
                                 <div className="field col">
-                                    <label htmlFor="situacionJuridica">Disposición</label>
-                                    <Dropdown id="situacionJuridica" options={state} value={product.situacionJuridica} onChange={(e) => onInputChange(e, 'situacionJuridica')} autoFocus />
+                                    <label htmlFor="sentencia">Sentencia</label>
+                                    <Dropdown id="sentencia" value={product.sentencia} onChange={(e) => onInputChange(e, 'sentencia')} required disabled />
                                 </div>
                                 <div className="field col">
-                                    <label htmlFor="descripcion">Motivo</label>
-                                    <Dropdown id="descripcion" options={det} value={product.descripcion} onChange={(e) => onInputChange(e, 'descripcion')} />
+                                    <label htmlFor="sentenciaDET">Detalle: </label>
+                                    <InputTextarea id="sentenciaDET" value={product.sentenciaDET} onChange={(e) => onInputChange(e, 'sentenciaDET')} required disabled />
                                 </div>
                             </div>
                         </div>
 
                     </Dialog>
 
-                    <Dialog visible={deleteProductDialog} style={{ width: '450px' }} header="Confirmar" modal footer={deleteProductDialogFooter} onHide={hideDeleteProductDialog}>
+                    {/* <Dialog visible={deleteProductDialog} style={{ width: '450px' }} header="Confirmar" modal footer={deleteProductDialogFooter} onHide={hideDeleteProductDialog}>
                         <div className="flex align-items-center justify-content-center">
                             <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
                             {product && <span>Recuerde que al confirmar, ya no podra editar el caso del Sr.(a) <b>{product.nombre}</b></span>}
                         </div>
-                    </Dialog>
+                    </Dialog> */}
                 </div>
             </div>
         </div>
     );
 }
 
-export default FlagrantesMP;
+export default FlagrantesAcusacion;

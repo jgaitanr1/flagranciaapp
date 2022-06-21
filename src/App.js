@@ -23,6 +23,7 @@ import FlagrantesPJ from './pages/FlagrantesPJ';
 import FlagrantesAudiencia from './pages/FlagrantesAudiencia';
 import TarjetaDerechos from './pages/TarjetaDerechos';
 import PendientePNP from './pages/PendientePNP';
+import FlagrantesAcusacion from './pages/FlagrantesAcusacion';
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
           <Route exact path ="flagrantesMP" element={ <FlagrantesMP />}/>
           <Route exact path ="flagrantesPJ" element={ <FlagrantesPJ />}/>
           <Route exact path ="flagrantesAudiencia" element={ <FlagrantesAudiencia />}/>
+          <Route exact path ="flagrantesAcusacion" element={ <FlagrantesAcusacion />}/>
         </Route>
         <Route exact path="/login" element={<Login />} />    
       </Routes>

@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-// import { Link } from "react-router-dom";
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 
@@ -55,7 +54,6 @@ export const FlagrantesPJ = () => {
     const [product, setProduct] = useState(empty);
     const [dproduct, setDProduct] = useState(dempty);
     const [selectedProducts, setSelectedProducts] = useState(null);
-    const [deleteProductDialog, setDeleteProductDialog] = useState(false);
     const [submitted, setSubmitted] = useState(false);
     const [globalFilter, setGlobalFilter] = useState(null);
     const toast = useRef(null);
@@ -85,7 +83,7 @@ export const FlagrantesPJ = () => {
 
 
     const peticionPut = async () => {
-        product.audiencia = product.fec.toLocaleDateString()+" "+product.hour+":"+product.min;
+        product.audiencia = product.fec.toLocaleDateString()+", "+product.hour+":"+product.min;
         await axios.put(baseUrl + product.id, product)
             .then(response => {
                 var dataNueva = data;
@@ -112,15 +110,6 @@ export const FlagrantesPJ = () => {
             })
     }
 
-    const peticionPutEstado = async () => {
-        if (product.situacionJuridica === 'Libertad') {
-            product.estadoFlagrante = 'Resuelto';
-        } else {
-            product.estadoFlagrante = 'Poder Judicial';
-        }
-        await axios.put(baseUrl + product.id, product);
-    }
-
     useEffect(() => {
         peticionGet()
     }, []);
@@ -129,10 +118,6 @@ export const FlagrantesPJ = () => {
         setSubmitted(false);
         setProductDialog(false);
     }
-
-    // const hideDeleteProductDialog = () => {
-    //     setDeleteProductDialog(false);
-    // }
 
     const saveProduct = () => {
         setSubmitted(true);
@@ -160,33 +145,6 @@ export const FlagrantesPJ = () => {
         setProductDialog(true);
     }
 
-    // const confirmDeleteProduct = (product) => {
-    //     setProduct(product);
-    //     setDeleteProductDialog(true);
-    // }
-
-    const hideDeleteProductDialog = () => {
-        setDeleteProductDialog(false);
-    }
-
-    const deleteProduct = () => {
-        let _products = data.filter(val => val.id !== product.id);
-        setData(_products);
-        setDeleteProductDialog(false);
-        setProduct(empty);
-        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Completado', life: 4000 });
-        setTimeout(() => {
-            peticionPutEstado();
-        }, 1000);
-    }
-
-    const deleteProductDialogFooter = (
-        <>
-            <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteProductDialog} />
-            <Button label="Si" icon="pi pi-check" className="p-button-text" onClick={deleteProduct} />
-        </>
-    );
-
     const findIndexById = (id) => {
         let index = -1;
         for (let i = 0; i < data.length; i++) {
@@ -195,7 +153,6 @@ export const FlagrantesPJ = () => {
                 break;
             }
         }
-
         return index;
     }
 
@@ -262,10 +219,7 @@ export const FlagrantesPJ = () => {
     const actionBodyTemplate = (rowData) => {
         return (
             <div className="actions">
-                {/* <Link to={`/timeline/${rowData.id}`} className="p-button-rounded p-button-outlined p-button mr-2" >Det.</Link> */}
-                {/* <Button icon="pi pi-map-marker" className="p-button-rounded p-button-outlined p-button-warning mr-2" onClick={() => googleMapsProduct(rowData)} /> */}
                 <Button icon="pi pi-calendar" className="p-button-rounded p-button-outlined p-button-success mr-2" onClick={() => editProduct(rowData)} />
-                {/* <Button icon="pi pi-check" className="p-button-rounded p-button-outlined p-button mr-2" onClick={() => confirmDeleteProduct(rowData)} /> */}
             </div>
         );
     }
@@ -286,12 +240,6 @@ export const FlagrantesPJ = () => {
             <Button label="Guardar" icon="pi pi-check" className="p-button-text" onClick={saveProduct} />
         </>
     );
-    // const deleteProductDialogFooter = (
-    //     <>
-    //         <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteProductDialog} />
-    //         <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteProduct} />
-    //     </>
-    // );
 
     return (
         <div className="grid crud-demo">
@@ -325,22 +273,14 @@ export const FlagrantesPJ = () => {
                                 <div className="formgrid grid">
                                     <div className="field col">
                                         <label htmlFor="hour">Hora</label>
-                                        <InputNumber value={product.hour} onValueChange={(e) => onInputChange(e, 'hour')} showButtons ></InputNumber>
+                                        <InputNumber min={0} max={23} value={product.hour} onValueChange={(e) => onInputChange(e, 'hour')} showButtons ></InputNumber>
                                     </div>
                                     <div className="field col">
                                         <label htmlFor="min">Minutos</label>
-                                        <InputNumber value={product.min} onValueChange={(e) => onInputChange(e, 'min')} showButtons ></InputNumber>
+                                        <InputNumber min={0} max={59} value={product.min} onValueChange={(e) => onInputChange(e, 'min')} showButtons ></InputNumber>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
-                    </Dialog>
-
-                    <Dialog visible={deleteProductDialog} style={{ width: '450px' }} header="Confirmar" modal footer={deleteProductDialogFooter} onHide={hideDeleteProductDialog}>
-                        <div className="flex align-items-center justify-content-center">
-                            <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem' }} />
-                            {product && <span>Recuerde que al confirmar, ya no podra editar el caso del Sr.@ <b>{product.nombre}</b></span>}
                         </div>
                     </Dialog>
                 </div>

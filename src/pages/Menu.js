@@ -53,7 +53,8 @@ const Menu = () => {
         label: 'Ministerio Publico', icon: 'pi pi-fw pi-clone',
         items: [
             { label: 'Nuevos Ingresos', icon: 'pi pi-fw pi-star', to: 'pendientePNP' },
-            { label: 'Pendientes de Calificar', icon: 'pi pi-fw pi-pencil', to: 'flagrantesMP' }
+            { label: 'Disposición Fiscal', icon: 'pi pi-fw pi-pencil', to: 'flagrantesMP' },
+            { label: 'Acusación Fiscal', icon: 'pi pi-fw pi-briefcase', to: 'flagrantesAcusacion' }
         ]
     }]
 
@@ -92,7 +93,8 @@ const Menu = () => {
         label: 'Ministerio Publico', icon: 'pi pi-fw pi-clone',
         items: [
             { label: 'Nuevos Ingresos', icon: 'pi pi-fw pi-star', to: 'pendientePNP' },
-            { label: 'Pendientes de Calificar', icon: 'pi pi-fw pi-pencil', to: 'flagrantesMP' }
+            { label: 'Disposición Fiscal', icon: 'pi pi-fw pi-pencil', to: 'flagrantesMP' },
+            { label: 'Acusación Fiscal', icon: 'pi pi-fw pi-briefcase', to: 'flagrantesAcusacion' }
         ]
     },
     {
