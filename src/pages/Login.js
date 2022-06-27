@@ -11,7 +11,7 @@ import { Toast } from 'primereact/toast';
 import { environment } from '../components/baseUrl';
 
 function Login(props) {
-
+    //login baseurl
     const baseUrl = environment.baseUrl + "usuario";
     const cookies = new Cookies();
     let navigate = useNavigate();
