@@ -4,11 +4,11 @@ import Cookies from 'universal-cookie';
 import classNames from 'classnames';
 import PrimeReact from 'primereact/api';
 import { Tooltip } from 'primereact/tooltip';
+import { Toast } from 'primereact/toast';
 
 import { AppFooter } from '../AppFooter';
 import { AppTopbar } from '../AppTopbar';
 import { AppMenu } from '../AppMenu';
-// import { CSSTransition } from 'react-transition-group';
 
 const Menu = () => {
     const cookies = new Cookies();
@@ -16,6 +16,7 @@ const Menu = () => {
     let menuClick = false;
     let mobileTopbarMenuClick = false;
     PrimeReact.ripple = true;
+    const toast = useRef(null);
 
     const copyTooltipRef = useRef();
 
@@ -107,20 +108,20 @@ const Menu = () => {
     }]
 
     function Acceder() {
-        if (cookies.get('depNombre') === 'Poder Judicial' ){
-          return pj;
-        }else if(cookies.get('depNombre') === 'Policia Nacional del Peru'){
+        if (cookies.get('depNombre') === 'Poder Judicial') {
+            return pj;
+        } else if (cookies.get('depNombre') === 'Policia Nacional del Peru') {
             return pnp;
-        }else if(cookies.get('depNombre') === 'Ministerio Publico'){
+        } else if (cookies.get('depNombre') === 'Ministerio Publico') {
             return mp;
-        }else if(cookies.get('depNombre') === 'Policia Nacional del Peru - IR'){
+        } else if (cookies.get('depNombre') === 'Policia Nacional del Peru - IR') {
             return patrulla;
-        }else{
+        } else {
             return adm;
         }
-      }
+    }
 
-    
+
     const menu = Acceder();
 
     const [layoutMode, setLayoutMode] = useState('static');
@@ -132,12 +133,24 @@ const Menu = () => {
     const [mobileMenuActive, setMobileMenuActive] = useState(false);
     const [mobileTopbarMenuActive, setMobileTopbarMenuActive] = useState(false);
 
+    function Alerta() {
+        return toast.current.show({ severity: 'error', summary: 'Alerta de Carga', detail: 'Hola, ' + cookies.get('nombres') + ' ' + cookies.get('apellidos') + ' tienes carga pendiente por resolver.', life: 8000 });;
+    }
 
     useEffect(() => {
         if (!cookies.get('id')) {
             navigate('/login');
         }
         document.documentElement.style.fontSize = 13 + 'px';
+        setTimeout(() => {
+            if (cookies.get('depNombre') === 'Poder Judicial') {
+                return Alerta();
+            } else if (cookies.get('depNombre') === 'Policia Nacional del Peru') {
+                return Alerta();
+            } else if (cookies.get('depNombre') === 'Ministerio Publico') {
+                return Alerta();
+            }
+        }, 1500);
     }, []);
 
 
@@ -156,6 +169,7 @@ const Menu = () => {
     }
 
     const onSidebarClick = () => {
+        Alerta();
         menuClick = true;
     }
 
@@ -172,7 +186,6 @@ const Menu = () => {
 
     const onMobileTopbarMenuClick = (event) => {
         mobileTopbarMenuClick = true;
-
         setMobileTopbarMenuActive((prevState) => !prevState);
         event.preventDefault();
     }
@@ -219,6 +232,7 @@ const Menu = () => {
 
     return (
         <div className={wrapperClass} onClick={onWrapperClick} >
+            <Toast ref={toast} />
             <Tooltip ref={copyTooltipRef} target=".block-action-copy" position="bottom" content="Copied to clipboard" event="focus" />
             <AppTopbar onToggleMenuClick={onToggleMenuClick} layoutColorMode={layoutColorMode}
                 mobileTopbarMenuActive={mobileTopbarMenuActive} onMobileTopbarMenuClick={onMobileTopbarMenuClick} onMobileSubTopbarMenuClick={onMobileSubTopbarMenuClick} />

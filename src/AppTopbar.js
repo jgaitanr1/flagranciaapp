@@ -28,8 +28,8 @@ export const AppTopbar = (props) => {
     return (
         <div className="layout-topbar">
             <Link to="/" className="layout-topbar-logo">
-                <img src="/logos/pjudicial.svg" alt="logo" />
-                <span>Unidad Flagrancia</span>
+                <img src="/logos/logo.svg" alt="logo" />
+                <div className="text-red-900 font-bold">Unidad de Flagrancia</div>
             </Link>
 
             <button type="button" className="p-link  layout-menu-button layout-topbar-button" onClick={props.onToggleMenuClick}>

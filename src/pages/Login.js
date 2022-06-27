@@ -44,7 +44,8 @@ function Login(props) {
                     cookies.set('estado', respuesta.estado, { path: '/' });
                     cookies.set('depNombre', respuesta.depNombre, { path: '/' });
                     cookies.set('dependencia', respuesta.dependencia, { path: '/' });
-                    toast.current.show({ severity: 'success', summary: 'Logeado Correctamente', detail: 'Bienvenido '+respuesta.nombres+' '+respuesta.apellidos, life: 3000 });
+                    toast.current.show({ severity: 'success', summary: 'Logeado Correctamente', detail: 'Bienvenido ' + respuesta.nombres + ' ' + respuesta.apellidos, life: 3000 });
+                    // toast.current.show({ severity: 'error', summary: 'Alerta de Carga', detail: 'Hola, ' + cookies.get('nombres') + ' ' + cookies.get('apellidos') + ' tienes carga pendiente por resolver.', life: 5000 });
                     setTimeout(() => {
                         navigate('/');
                     }, 1500);
@@ -67,12 +68,13 @@ function Login(props) {
 
     return (
         <>
-            <Toast ref={toast} /> <div className="flex align-items-center justify-content-center">
+            <Toast ref={toast} />
+            <div className="surface-ground px-4 py-8 md:px-4 lg:px-8 flex align-items-center justify-content-center">
                 <div className="surface-card p-4 shadow-2 border-round w-full lg:w-6">
-                    <div className="text-center mb-5">
-                        <img src="/logos/pjudicial.svg" alt="hyper" height={100} className="mb-3" />
-                        <div className="text-900 text-3xl font-medium mb-3">Corte Superior de Justicia de La Libertad</div>
-                        <span className="text-600 text-2xl font-medium line-height-3">Unidad de Flagrancia</span>
+                    <div className="text-center font-bold mb-5">
+                        <img src="/logos/logo.svg" alt="hyper" height={130} className="mb" />
+                        <div className="text-red-900 text-3xl font-bold mb-3">UNIDAD DE FLAGRANCIA</div>
+                        <span className="text-400 text-2xl font-medium line-height-3">Justicia Pronta, cumplida y Amable</span>
                         {/* <a className="font-medium no-underline ml-2 text-blue-500 cursor-pointer">Create today!</a> */}
                     </div>
 
