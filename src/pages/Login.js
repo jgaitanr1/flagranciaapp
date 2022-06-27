@@ -72,9 +72,9 @@ function Login(props) {
             <div className="surface-ground px-4 py-8 md:px-4 lg:px-8 flex align-items-center justify-content-center">
                 <div className="surface-card p-4 shadow-2 border-round w-full lg:w-6">
                     <div className="text-center font-bold mb-5">
-                        <img src="/logos/logouf.png" alt="hyper" height={220} className="mb" />
-                        {/* <div className="text-red-900 text-3xl font-bold mb-3">UNIDAD DE FLAGRANCIA</div>
-                        <span className="text-400 text-2xl font-medium line-height-3">Justicia Pronta, cumplida y Amable</span> */}
+                        <img src="/logos/logo.svg" alt="hyper" height={130} className="mb" />
+                        <div className="text-red-900 text-3xl font-bold mb-3">UNIDAD DE FLAGRANCIA</div>
+                        <span className="text-400 text-2xl font-medium line-height-3">Justicia Pronta, cumplida y Amable</span>
                         {/* <a className="font-medium no-underline ml-2 text-blue-500 cursor-pointer">Create today!</a> */}
                     </div>
 

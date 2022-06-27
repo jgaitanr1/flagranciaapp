@@ -169,7 +169,6 @@ const Menu = () => {
     }
 
     const onSidebarClick = () => {
-        Alerta();
         menuClick = true;
     }
 
