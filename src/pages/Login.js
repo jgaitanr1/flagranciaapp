@@ -74,7 +74,7 @@ function Login(props) {
                     <div className="text-center font-bold mb-5">
                         <img src="/logos/logo.svg" alt="hyper" height={130} className="mb" />
                         <div className="text-red-900 text-3xl font-bold">UNIDAD DE FLAGRANCIA</div>
-                        <span className="text-400 text-2xl font-medium line-height-3">Justicia Pronta, cumplida y Amable</span>
+                        <span className="text-400 text-2xl font-medium line-height-3">Justicia Pronta, Cumplida y Amable</span>
                         {/* <a className="font-medium no-underline ml-2 text-blue-500 cursor-pointer">Create today!</a> */}
                     </div>
 

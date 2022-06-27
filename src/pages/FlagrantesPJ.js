@@ -46,9 +46,9 @@ export const FlagrantesPJ = () => {
     };
 
     const state = [
-        "Prisión",
-        "Trabajo Social",
-        "Multa Economica"
+        "Sentencia Condenatoria",
+        "Sentencia Absolutoria",
+        "Sobreseguimiento"
     ];
 
     const baseUrl = environment.baseUrl + "flagrancia/";

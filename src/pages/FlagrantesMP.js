@@ -50,11 +50,10 @@ export const FlagrantesMP = () => {
 
     const libertad = [
         "Principio de Oportunidad",
+        "Acuerdo Reparatorio",
         "Corte de proceso por Menor de Edad",
-        "No es delito",
-        "Es falta",
-        "opcion 5",
-        "opcion 6"
+        "El hecho no es delito",
+        "El hecho es falta"
     ];
 
     const pi = [
@@ -224,7 +223,7 @@ export const FlagrantesMP = () => {
         setData(_products);
         setDeleteProductDialog(false);
         setProduct(empty);
-        if (product.situacionJuridica == 'Libertad') {
+        if (product.situacionJuridica === 'Libertad') {
             peticionPostLibertad();
             console.log("ingreso post libertad");
         }
