@@ -45,7 +45,8 @@ export const FlagrantesMP = () => {
 
     const state = [
         "Libertad",
-        "Incoación de proceso inmediato"
+        "Incoación de proceso inmediato",
+        "Proceso Comun"
     ];
 
     const libertad = [
@@ -58,6 +59,9 @@ export const FlagrantesMP = () => {
 
     const pi = [
         "Proceso Inmediato"
+    ];
+    const pc = [
+        "Prision Preventiva"
     ];
 
     const baseUrl = environment.baseUrl + "flagrancia/";
@@ -78,6 +82,8 @@ export const FlagrantesMP = () => {
             return libertad;
         } else if (product.situacionJuridica === 'Incoación de proceso inmediato') {
             return pi;
+        } else if (product.situacionJuridica === 'Proceso Comun') {
+            return pc;
         } else {
             return null;
         }
