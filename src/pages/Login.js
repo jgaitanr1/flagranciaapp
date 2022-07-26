@@ -7,6 +7,7 @@ import axios from 'axios';
 
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
+import { Checkbox } from 'primereact/checkbox';
 import { Toast } from 'primereact/toast';
 import { environment } from '../components/baseUrl';
 
@@ -26,7 +27,6 @@ function Login(props) {
             ...form,
             [name]: value
         });
-        // console.log(form);
     }
 
     const iniciarSesion = async () => {
@@ -64,38 +64,78 @@ function Login(props) {
             navigate('/');
         }
         document.documentElement.style.fontSize = 12 + 'px';
+        document.documentElement.style.background = '#5E181F';
     }, []);
+
+
+    const styles = {
+        body: {
+            height: '100%',
+            width: '100%',
+            // background: '#9B1B21',
+            backgroundImage: "url(/logos/bglogin2.png)",
+            color: 'white',
+            height: '100vh',
+            width: '100vw',
+            display: 'flex',
+            backgroundPosition: 'center',
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat',
+        },
+        component: {
+            background: '#9B1B21',
+            color: 'white',
+        },
+        texto: {
+            color: '#9B1B21',
+        },
+        formulario: {
+            // opacity: '0.5',
+            border: 'thick solid #FFFFFF',
+            opacity: '1',
+        }
+
+    }
+
+
 
     return (
         <>
             <Toast ref={toast} />
-            <div className="surface-ground px-4 py-8 md:px-4 lg:px-8 flex align-items-center justify-content-center">
-                <div className="surface-card p-4 shadow-2 border-round w-full lg:w-6">
-                    <div className="text-center font-bold mb-5">
-                        <img src="/logos/logo.svg" alt="hyper" height={130} className="mb" />
-                        <div className="text-red-900 text-3xl font-bold">UNIDAD DE FLAGRANCIA</div>
-                        <span className="text-400 text-2xl font-medium line-height-3">Justicia Pronta, Cumplida y Amable</span>
-                        {/* <a className="font-medium no-underline ml-2 text-blue-500 cursor-pointer">Create today!</a> */}
-                    </div>
+            <div style={styles.body} className="surface-ground px-4 py-8 md:px-4 lg:px-8 flex align-items-center justify-content-center">
+                {/* <img src="/logos/logoufb.png" alt="hyper" height={150} className="mb-0" /> */}
+                {/* <div className="surface-ground px-4 py-8 md:px-4 lg:px-8 flex align-items-center justify-content-center"> */}
+                <div style={styles.formulario} className="surface-card p-6 shadow-8 border-round w-full lg:w-4 mb-4">
+                    <div className="mb-2">
+                        <br />
+                        <div className="p-inputgroup">
+                            <span style={styles.component} className="p-inputgroup-addon">
+                                <i className="pi pi-user"></i>
+                            </span>
+                            <InputText placeholder="Usuario" id="username" type="text" name="username" onChange={handleChange} />
+                        </div>
+                        <br />
+                        <div className="p-inputgroup mb-4">
+                            <span style={styles.component} className="p-inputgroup-addon">
+                                <i className="pi pi-lock"></i>
+                            </span>
+                            <InputText placeholder="Contraseña" id="password" type="password" name="password" onChange={handleChange} />
+                        </div>
+                        <br />
 
-                    <div>
-                        <label htmlFor="email" className="block text-900 font-medium mb-2">Usuario</label>
-                        <InputText id="username" type="text" className="w-full mb-3" name="username" onChange={handleChange} />
-
-                        <label htmlFor="password" className="block text-900 font-medium mb-2">Clave</label>
-                        <InputText id="password" type="password" className="w-full mb-3" name="password" onChange={handleChange} />
-
-                        <div className="flex align-items-center justify-content-between mb-6">
+                        <div style={styles.texto} className="flex align-items-center justify-content-between mb-6">
                             <div className="flex align-items-center">
                                 {/* <Checkbox id="rememberme" onChange={e => setChecked(e.checked)} checked={checked} className="mr-2" /> */}
-                                {/* <label htmlFor="rememberme">Acuérdate de mí</label> */}
+                                <Checkbox id="rememberme" className="mr-2" />
+                                <label htmlFor="rememberme">Acuérdate de mí</label>
                             </div>
-                            {/* <a className="font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer">Forgot your password?</a> */}
+                            <label className="font-medium no-underline ml-2 text-right cursor-pointer">Olvidaste tu contraseña?</label>
                         </div>
 
-                        <Button label="Iniciar Sesion" icon="pi pi-user" className="w-full" onClick={() => iniciarSesion()} />
+                        <Button style={styles.component} label="Iniciar Sesion" icon="pi pi-user" className="w-full" onClick={() => iniciarSesion()} />
                     </div>
                 </div>
+                {/* </div> */}
             </div>
         </>
     );
