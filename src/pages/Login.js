@@ -69,8 +69,8 @@ function Login(props) {
 
     const styles = {
         body: {
-            height: '100%',
-            width: '100%',
+            // height: '100%',
+            // width: '100%',
             // background: '#9B1B21',
             backgroundImage: "url(/logos/bglogin2.png)",
             color: 'white',
