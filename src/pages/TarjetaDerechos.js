@@ -32,7 +32,7 @@ export const TarjetaDerechos = () => {
                 </div>
             </div>
         </div>
-        // </div>
+        // </div> //rumpelz
     );
 }
 
