@@ -24,14 +24,14 @@ const Menu = () => {
         label: 'Favoritos',
         items: [
             { label: 'Inicio', icon: 'pi pi-fw pi-home', to: 'tarjetaDerechos' },
-            { label: 'Buscar Flagrantes', icon: 'pi pi-fw pi-desktop', to: 'flagrantes' }
+            { label: 'Buscar Detenidos', icon: 'pi pi-fw pi-desktop', to: 'flagrantes' }
         ]
     },
     {
         label: 'Policia Nacional', icon: 'pi pi-fw pi-clone',
         items: [
             { label: 'Ingreso a Sede', icon: 'pi pi-fw pi-map-marker', to: 'ingresoPNP' },
-            { label: 'Validar Flagrante', icon: 'pi pi-fw pi-id-card', to: 'validarPNP' }
+            { label: 'Validar Detenido', icon: 'pi pi-fw pi-id-card', to: 'validarPNP' }
         ]
     }]
 
@@ -47,7 +47,7 @@ const Menu = () => {
         label: 'Favoritos',
         items: [
             { label: 'Inicio', icon: 'pi pi-fw pi-home', to: 'tarjetaDerechos' },
-            { label: 'Buscar Flagrantes', icon: 'pi pi-fw pi-desktop', to: 'flagrantes' }
+            { label: 'Buscar Detenidos', icon: 'pi pi-fw pi-desktop', to: 'flagrantes' }
         ]
     },
     {
@@ -63,7 +63,7 @@ const Menu = () => {
         label: 'Favoritos',
         items: [
             { label: 'Inicio', icon: 'pi pi-fw pi-home', to: 'tarjetaDerechos' },
-            { label: 'Buscar Flagrantes', icon: 'pi pi-fw pi-desktop', to: 'flagrantes' }
+            { label: 'Buscar Detenidos', icon: 'pi pi-fw pi-desktop', to: 'flagrantes' }
         ]
     },
     {
@@ -79,14 +79,14 @@ const Menu = () => {
         label: 'Favoritos',
         items: [
             { label: 'Inicio', icon: 'pi pi-fw pi-home', to: 'tarjetaDerechos' },
-            { label: 'Lista de Flagrantes', icon: 'pi pi-fw pi-desktop', to: 'flagrantes' }
+            { label: 'Lista de Detenidos', icon: 'pi pi-fw pi-desktop', to: 'flagrantes' }
         ]
     },
     {
         label: 'Policia Nacional', icon: 'pi pi-fw pi-clone',
         items: [
             { label: 'Ingreso a Sede', icon: 'pi pi-fw pi-map-marker', to: 'ingresoPNP' },
-            { label: 'Validar Flagrante', icon: 'pi pi-fw pi-id-card', to: 'validarPNP' },
+            { label: 'Validar Detenidos', icon: 'pi pi-fw pi-id-card', to: 'validarPNP' },
             { label: 'Registro', icon: 'pi pi-fw pi-user-edit', to: 'registro' }
         ]
     },

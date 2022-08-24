@@ -72,7 +72,7 @@ function Login(props) {
             // height: '100%',
             // width: '100%',
             // background: '#9B1B21',
-            backgroundImage: "url(/logos/bglogin2.png)",
+            backgroundImage: "url(/logos/wuflagrancia2.png)",
             color: 'white',
             height: '100vh',
             width: '100vw',
@@ -104,7 +104,7 @@ function Login(props) {
             <div style={styles.body} className="surface-ground px-4 py-8 md:px-4 lg:px-8 flex align-items-center justify-content-center">
                 {/* <img src="/logos/logoufb.png" alt="hyper" height={150} className="mb-0" /> */}
                 {/* <div className="surface-ground px-4 py-8 md:px-4 lg:px-8 flex align-items-center justify-content-center"> */}
-                <div style={styles.formulario} className="surface-card p-6 shadow-8 border-round w-full lg:w-4 mb-4">
+                <div style={styles.formulario} className="surface-card p-6 shadow-8 border-round w-full lg:w-3 mb-4">
                     <div className="mb-2">
                         <br />
                         <div className="p-inputgroup">

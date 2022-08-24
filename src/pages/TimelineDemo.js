@@ -73,7 +73,7 @@ export const TimelineDemo = () => {
     return <div className="grid timeline-demo">
         <div className="col-12">
             <div className="card">
-                <h4>Linea de Tiempo de Flagrante</h4>
+                <h4>Linea de Tiempo del Detenido</h4>
                 <h5>Codigo Unico: {id}</h5>
                 <br />
                 <Timeline value={data} align="alternate" className="customized-timeline" marker={customizedMarker} content={customizedContent} />
