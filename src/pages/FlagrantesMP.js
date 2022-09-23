@@ -21,6 +21,7 @@ export const FlagrantesMP = () => {
         id: null,
         nombre: '',
         documento: '',
+        tDocumento: '',
         genero:'',
         nacionalidad:'',
         situacionJuridica: '',

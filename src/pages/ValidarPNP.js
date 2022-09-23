@@ -6,6 +6,8 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
+import { Dropdown } from "primereact/dropdown";
+import { RadioButton } from 'primereact/radiobutton';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { environment } from '../components/baseUrl';
@@ -20,13 +22,16 @@ export const ValidarPNP = () => {
         id: null,
         nombre: '',
         documento: '',
+        tDocumento: '',
+        genero: '',
+        nacionalidad: '',
         situacionJuridica: '',
         sentencia: '',
         audiencia: '',
         acusacion: '',
-        descripcion:'',
+        descripcion: '',
         latitud: '',
-        altitud: '',
+        longitud: '',
         usuarioRegistro: '',
         fecRegistro: null,
         estadoFlagrante: '',
@@ -42,6 +47,16 @@ export const ValidarPNP = () => {
         idFlagrancia: null
     };
 
+    const tipodocumento = [
+        "Documento Nacional de Identidad",
+        "Carnet de Extranjeria"
+    ];
+
+    const tiposexo = [
+        "Masculino",
+        "Femenino"
+    ];
+
     const baseUrl = environment.baseUrl + "flagrancia/";
     const [data, setData] = useState(null);
 
@@ -52,11 +67,12 @@ export const ValidarPNP = () => {
     const [selectedProducts, setSelectedProducts] = useState(null);
     const [submitted, setSubmitted] = useState(false);
     const [globalFilter, setGlobalFilter] = useState(null);
+    const [radioValue, setRadioValue] = useState(null);
     const toast = useRef(null);
     const dt = useRef(null);
 
     const peticionGet = async () => {
-        await axios.get(baseUrl+'ingresado/')
+        await axios.get(baseUrl + 'ingresado/')
             .then(response => {
                 setData(response.data);
             }).catch(error => {
@@ -67,8 +83,8 @@ export const ValidarPNP = () => {
     const peticionPost = async () => {
         let date = new Date();
         delete dproduct.id;
-        dproduct.descripcion = "Se Validaron los datos del detenido, Nombre: " + product.nombre + " N° Identificacion: " + 
-                                product.documento +", Se procedio a dar por finalizada la intervencion de la PNP.";
+        dproduct.descripcion = "Se Validaron los datos del detenido, Nombre: " + product.nombre + " N° Identificacion: " +
+            product.documento + ", Se procedio a dar por finalizada la intervencion de la PNP.";
         dproduct.fecRegistro = date.toLocaleString();
         dproduct.usuarioRegistro = cookies.get('username');
         dproduct.dependencia = cookies.get('depNombre');
@@ -79,22 +95,22 @@ export const ValidarPNP = () => {
     const peticionPut = async () => {
         product.estadoFlagrante = 'Identificado';
         await axios.put(baseUrl + product.id, product)
-            // .then(response => {
-            //     var dataNueva = data;
-            //     dataNueva.map(u => {
-            //         if (u.id === product.id) {
-            //             u.nombre = product.nombre;
-            //             u.documento = product.documento;
-            //             u.situacionJuridica = product.situacionJuridica;
-            //             u.sentencia = product.sentencia;
-            //             u.estadoFlagrante = product.estadoFlagrante;
-            //             u.estado = product.estado;
-            //         }
-            //     });
-            //     setData(dataNueva);
-            // }).catch(error => {
-            //     console.log(error);
-            // })
+        // .then(response => {
+        //     var dataNueva = data;
+        //     dataNueva.map(u => {
+        //         if (u.id === product.id) {
+        //             u.nombre = product.nombre;
+        //             u.documento = product.documento;
+        //             u.situacionJuridica = product.situacionJuridica;
+        //             u.sentencia = product.sentencia;
+        //             u.estadoFlagrante = product.estadoFlagrante;
+        //             u.estado = product.estado;
+        //         }
+        //     });
+        //     setData(dataNueva);
+        // }).catch(error => {
+        //     console.log(error);
+        // })
     }
 
     useEffect(() => {
@@ -107,7 +123,7 @@ export const ValidarPNP = () => {
     //     // setProduct(product);
     //     // setDeleteProductDialog(true);
     // }
-    
+
     const hideDialog = () => {
         setSubmitted(false);
         setProductDialog(false);
@@ -158,6 +174,15 @@ export const ValidarPNP = () => {
         _product[`${name}`] = val;
         setProduct(_product);
         console.log(product);
+    }
+
+    const onInputChangeRadio = (e, name) => {
+        const val = (e.target && e.target.value) || '';
+        let _product = { ...product };
+        product[`${name}`] = val;
+        setProduct(_product);
+        console.log(product);
+        setRadioValue(e.value);
     }
 
     const idBodyTemplate = (rowData) => {
@@ -242,7 +267,7 @@ export const ValidarPNP = () => {
                         <Column body={actionBodyTemplate}></Column>
                     </DataTable>
 
-                    <Dialog visible={productDialog} style={{ width: '450px' }} header="Datos del detenido" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
+                    <Dialog visible={productDialog} style={{ width: '600px' }} header="Datos del detenido" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
                         <Message severity="error" text="Recuerda que al GUARDAR el Detenido ya no podra ser modificado por la PNP y sera enviado al Ministerio Publico" />
                         <br />
                         <div className="field">
@@ -250,9 +275,30 @@ export const ValidarPNP = () => {
                             <InputText id="nombre" name="nombre" value={product.nombre} onChange={(e) => onInputChange(e, 'nombre')} required autoFocus />
                         </div>
                         <div className="field">
-                            <label htmlFor="documento">Documento del Detenido</label>
+                            <label htmlFor="tdocumento">Tipo de Documento</label>
+                            <Dropdown id="tdocumento" options={tipodocumento} value={product.tDocumento} onChange={(e) => onInputChange(e, 'tdocumento')} required />
+                        </div>
+                        <div className="field">
+                            <label htmlFor="documento">Nro Documento</label>
                             <InputText id="documento" name="documento" value={product.documento} onChange={(e) => onInputChange(e, 'documento')} required />
                         </div>
+                        <div className="field">
+                            <div className="grid">
+                                <div className="col-12 md:col-4">
+                                    <div className="field-radiobutton">
+                                        <RadioButton inputId="option1" name="option" value="Policial" checked={radioValue === 'Policial'} onChange={(e) => onInputChangeRadio(e, 'tipoArresto')} />
+                                        <label htmlFor="option1">Arresto Policial</label>
+                                    </div>
+                                </div>
+                                <div className="col-12 md:col-4">
+                                    <div className="field-radiobutton">
+                                        <RadioButton inputId="option2" name="option" value="Ciudadano" checked={radioValue === 'Ciudadano'} onChange={(e) => onInputChangeRadio(e, 'tipoArresto')} />
+                                        <label htmlFor="option2">Arresto Ciudadano</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </Dialog>
 
                 </div>

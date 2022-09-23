@@ -5,6 +5,7 @@ import Cookies from 'universal-cookie';
 
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
+import { Dropdown } from "primereact/dropdown";
 import { Toast } from 'primereact/toast';
 import { RadioButton } from 'primereact/radiobutton';
 
@@ -16,19 +17,26 @@ export const Registro = () => {
         id: null,
         nombre: '',
         documento: '',
+        tDocumento:'',
+        genero: '',
+        nacionalidad: '',
         situacionJuridica: '',
         sentencia: '',
         audiencia: '',
         acusacion: '',
-        descripcion:'',
+        descripcion: '',
         latitud: '',
         longitud: '',
-        tipoArresto: '',
         usuarioRegistro: '',
-        fecRegistro: '',
+        fecRegistro: null,
         estadoFlagrante: '',
         estado: true
     };
+
+    const tipodocumento = [
+        "Documento Nacional de Identidad",
+        "Carnet de Extranjeria"
+    ];
 
     const cookies = new Cookies();
 
@@ -118,7 +126,12 @@ export const Registro = () => {
                         <small>Consignar el nombre que proporciona el Detenido</small>
                     </div>
                     <div className="field p-fluid">
-                        <label htmlFor="documento">N° Documento de Identidad</label>
+                            <label htmlFor="tdocumento">Tipo de Documento</label>
+                            <Dropdown id="tdocumento" options={tipodocumento} value={entidad.tdocumento} onChange={(e) => onInputChange(e, 'tdocumento')} required />
+                            <small>Consignar el numero documento que proporciona el Detenido</small>
+                        </div>
+                    <div className="field p-fluid">
+                        <label htmlFor="documento">N° Documento</label>
                         <InputText id="documento" type="text" name="documento" onChange={(e) => onInputChange(e, 'documento')} required />
                         <small>Consignar el numero documento que proporciona el Detenido</small>
                     </div>
