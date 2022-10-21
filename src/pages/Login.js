@@ -71,7 +71,7 @@ function Login(props) {
         body: {
             // height: '100%',
             // width: '100%',
-            // background: '#9B1B21',
+            // background: '#9B1B21', log final
             backgroundImage: "url(/logos/flagrancia.png)",
             color: 'white',
             height: '100vh',
