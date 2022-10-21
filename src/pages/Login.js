@@ -63,7 +63,7 @@ function Login(props) {
             navigate('/');
         }
         document.documentElement.style.fontSize = 12 + 'px';
-        document.documentElement.style.background = '#5E181F';
+        // document.documentElement.style.background = '#5E181F';
     }, []);
 
 
@@ -72,7 +72,7 @@ function Login(props) {
             // height: '100%',
             // width: '100%',
             // background: '#9B1B21',
-            backgroundImage: "url(/logos/wuflagrancia2.png)",
+            backgroundImage: "url(/logos/flagrancia.png)",
             color: 'white',
             height: '100vh',
             width: '100vw',
@@ -96,17 +96,14 @@ function Login(props) {
 
     }
 
-
-
     return (
         <>
             <Toast ref={toast} />
             <div style={styles.body} className="surface-ground px-4 py-8 md:px-4 lg:px-8 flex align-items-center justify-content-center">
-                {/* <img src="/logos/logoufb.png" alt="hyper" height={150} className="mb-0" /> */}
                 {/* <div className="surface-ground px-4 py-8 md:px-4 lg:px-8 flex align-items-center justify-content-center"> */}
-                <div style={styles.formulario} className="surface-card p-6 shadow-8 border-round w-full lg:w-3 mb-4">
+                <div style={styles.formulario} className="surface-card p-4 shadow-8 border-round w-full lg:w-4 mb-4">
+                    <div align="center"><img src="/logos/logouf.png" alt="hyper" height={160} className="mb-0" /></div>
                     <div className="mb-2">
-                        <br />
                         <div className="p-inputgroup">
                             <span style={styles.component} className="p-inputgroup-addon">
                                 <i className="pi pi-user"></i>
@@ -124,7 +121,6 @@ function Login(props) {
 
                         <div style={styles.texto} className="flex align-items-center justify-content-between mb-6">
                             <div className="flex align-items-center">
-                                {/* <Checkbox id="rememberme" onChange={e => setChecked(e.checked)} checked={checked} className="mr-2" /> */}
                                 <Checkbox id="rememberme" className="mr-2" />
                                 <label htmlFor="rememberme">Acuérdate de mí</label>
                             </div>

@@ -7,7 +7,7 @@ import { Column } from 'primereact/column';
 import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
 import { Dropdown } from "primereact/dropdown";
-import { RadioButton } from 'primereact/radiobutton';
+import { InputTextarea } from 'primereact/inputtextarea';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { environment } from '../components/baseUrl';
@@ -30,6 +30,7 @@ export const ValidarPNP = () => {
         audiencia: '',
         acusacion: '',
         descripcion: '',
+        observaciones: '',
         latitud: '',
         longitud: '',
         usuarioRegistro: '',
@@ -52,9 +53,10 @@ export const ValidarPNP = () => {
         "Carnet de Extranjeria"
     ];
 
-    const tiposexo = [
+    const tipogenero = [
         "Masculino",
-        "Femenino"
+        "Femenino",
+        "Otros"
     ];
 
     const baseUrl = environment.baseUrl + "flagrancia/";
@@ -95,34 +97,12 @@ export const ValidarPNP = () => {
     const peticionPut = async () => {
         product.estadoFlagrante = 'Identificado';
         await axios.put(baseUrl + product.id, product)
-        // .then(response => {
-        //     var dataNueva = data;
-        //     dataNueva.map(u => {
-        //         if (u.id === product.id) {
-        //             u.nombre = product.nombre;
-        //             u.documento = product.documento;
-        //             u.situacionJuridica = product.situacionJuridica;
-        //             u.sentencia = product.sentencia;
-        //             u.estadoFlagrante = product.estadoFlagrante;
-        //             u.estado = product.estado;
-        //         }
-        //     });
-        //     setData(dataNueva);
-        // }).catch(error => {
-        //     console.log(error);
-        // })
     }
 
     useEffect(() => {
         peticionGet()
     }, []);
 
-
-    // const confirmDeleteProduct = (product) => {
-    //     window.open("https://www.google.es/maps?q="+product.latitud+","+product.longitud);
-    //     // setProduct(product);
-    //     // setDeleteProductDialog(true);
-    // }
 
     const hideDialog = () => {
         setSubmitted(false);
@@ -151,7 +131,6 @@ export const ValidarPNP = () => {
     }
 
     const editProduct = (product) => {
-        peticionPost();
         setProduct({ ...product });
         setProductDialog(true);
     }
@@ -172,18 +151,11 @@ export const ValidarPNP = () => {
         const val = (e.target && e.target.value) || '';
         let _product = { ...product };
         _product[`${name}`] = val;
-        setProduct(_product);
-        console.log(product);
-    }
-
-    const onInputChangeRadio = (e, name) => {
-        const val = (e.target && e.target.value) || '';
-        let _product = { ...product };
-        product[`${name}`] = val;
-        setProduct(_product);
         console.log(product);
         setRadioValue(e.value);
+        setProduct(_product);
     }
+
 
     const idBodyTemplate = (rowData) => {
         return (
@@ -274,29 +246,23 @@ export const ValidarPNP = () => {
                             <label htmlFor="name">Nombre Detenido</label>
                             <InputText id="nombre" name="nombre" value={product.nombre} onChange={(e) => onInputChange(e, 'nombre')} required autoFocus />
                         </div>
-                        <div className="field">
-                            <label htmlFor="tdocumento">Tipo de Documento</label>
-                            <Dropdown id="tdocumento" options={tipodocumento} value={product.tDocumento} onChange={(e) => onInputChange(e, 'tdocumento')} required />
-                        </div>
-                        <div className="field">
-                            <label htmlFor="documento">Nro Documento</label>
-                            <InputText id="documento" name="documento" value={product.documento} onChange={(e) => onInputChange(e, 'documento')} required />
-                        </div>
-                        <div className="field">
-                            <div className="grid">
-                                <div className="col-12 md:col-4">
-                                    <div className="field-radiobutton">
-                                        <RadioButton inputId="option1" name="option" value="Policial" checked={radioValue === 'Policial'} onChange={(e) => onInputChangeRadio(e, 'tipoArresto')} />
-                                        <label htmlFor="option1">Arresto Policial</label>
-                                    </div>
-                                </div>
-                                <div className="col-12 md:col-4">
-                                    <div className="field-radiobutton">
-                                        <RadioButton inputId="option2" name="option" value="Ciudadano" checked={radioValue === 'Ciudadano'} onChange={(e) => onInputChangeRadio(e, 'tipoArresto')} />
-                                        <label htmlFor="option2">Arresto Ciudadano</label>
-                                    </div>
-                                </div>
+                        <div className="formgrid grid">
+                            <div className="field col">
+                                <label htmlFor="tDocumento">Tipo de Documento</label>
+                                <Dropdown id="tDocumento" options={tipodocumento} value={product.tDocumento} onChange={(e) => onInputChange(e, 'tDocumento')} required />
                             </div>
+                            <div className="field col">
+                                <label htmlFor="documento">Nro Documento</label>
+                                <InputText id="documento" name="documento" value={product.documento} onChange={(e) => onInputChange(e, 'documento')} required />
+                            </div>
+                        </div>
+                        <div className="field">
+                            <label htmlFor="observaciones">Detalle: </label>
+                            <InputTextarea id="observaciones" value={product.observaciones} onChange={(e) => onInputChange(e, 'observaciones')} required />
+                        </div>
+                        <div className="field">
+                            <label htmlFor="genero" className='mb-3'>Ingresar Genero</label>
+                            <Dropdown id="genero" options={tipogenero} value={product.genero} onChange={(e) => onInputChange(e, 'genero')} required />
                         </div>
 
                     </Dialog>

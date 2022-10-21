@@ -122,7 +122,71 @@ const Menu = () => {
     }
 
 
+    const stylespnp = {
+        body: {
+            height: '100%',
+            width: '100%',
+            background: '#48866F',
+            backgroundImage: "url(/logos/pnp2.png)",
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            // height: '100vh',
+            // width: '100vw',
+            // display: 'flex',
+        }
+    }
+    const stylesmp = {
+        body: {
+            height: '100%',
+            width: '100%',
+            background: '#0A355F',
+            backgroundImage: "url(/logos/mpfnlogoazul.jpg)",
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+        }
+    }
+    const stylespj = {
+        body: {
+            height: '100%',
+            width: '100%',
+            background: '#871C24',
+            backgroundImage: "url(/logos/pjrojo.png)",
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+        }
+    }
+
+    function Estilos() {
+        if (cookies.get('depNombre') === 'Poder Judicial') {
+            return stylespj;
+        } else if (cookies.get('depNombre') === 'Policia Nacional del Peru') {
+            return stylespnp;
+        } else if (cookies.get('depNombre') === 'Ministerio Publico') {
+            return stylesmp;
+        } else if (cookies.get('depNombre') === 'Policia Nacional del Peru - IR') {
+            return stylespnp;
+        } else {
+            return stylespj;
+        }
+    }
+
+    function Imagen() {
+        if (cookies.get('depNombre') === 'Poder Judicial') {
+            return '/logos/logopj.png';
+        } else if (cookies.get('depNombre') === 'Policia Nacional del Peru') {
+            return '/logos/pnp2.png';
+        } else if (cookies.get('depNombre') === 'Ministerio Publico') {
+            return '/logos/mpfnlogo.png';
+        } else if (cookies.get('depNombre') === 'Policia Nacional del Peru - IR') {
+            return '/logos/pnp2.png';
+        } else {
+            return stylespj;
+        }
+    }
+
+
     const menu = Acceder();
+    const styles = Estilos();
 
     const [layoutMode, setLayoutMode] = useState('static');
     const [layoutColorMode, setLayoutColorMode] = useState('light');
@@ -151,6 +215,7 @@ const Menu = () => {
                 return Alerta();
             }
         }, 1500);
+
     }, []);
 
 
@@ -230,13 +295,14 @@ const Menu = () => {
     });
 
     return (
-        <div className={wrapperClass} onClick={onWrapperClick} >
+        <div className={wrapperClass} onClick={onWrapperClick} style={styles.body} >
             <Toast ref={toast} />
             <Tooltip ref={copyTooltipRef} target=".block-action-copy" position="bottom" content="Copied to clipboard" event="focus" />
             <AppTopbar onToggleMenuClick={onToggleMenuClick} layoutColorMode={layoutColorMode}
                 mobileTopbarMenuActive={mobileTopbarMenuActive} onMobileTopbarMenuClick={onMobileTopbarMenuClick} onMobileSubTopbarMenuClick={onMobileSubTopbarMenuClick} />
 
-            <div className="layout-sidebar" onClick={onSidebarClick}>
+            <div className="layout-sidebar" onClick={onSidebarClick} >
+                <div align="center"><img src={Imagen()} alt="hyper" height={160} className="mb-4" /></div>
                 <AppMenu model={menu} onMenuItemClick={onMenuItemClick} layoutColorMode={layoutColorMode} />
             </div>
 

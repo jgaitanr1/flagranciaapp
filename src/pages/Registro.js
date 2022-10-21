@@ -17,7 +17,7 @@ export const Registro = () => {
         id: null,
         nombre: '',
         documento: '',
-        tDocumento:'',
+        tDocumento: '',
         genero: '',
         nacionalidad: '',
         situacionJuridica: '',
@@ -27,6 +27,7 @@ export const Registro = () => {
         descripcion: '',
         latitud: '',
         longitud: '',
+        tipoArresto: '',
         usuarioRegistro: '',
         fecRegistro: null,
         estadoFlagrante: '',
@@ -58,11 +59,11 @@ export const Registro = () => {
             entidad.longitud = lon + '';
         })
     }
-    
+
     useEffect(() => {
         geopos();
     }, []);
-    
+
 
     const onInputChange = (e, name) => {
         const val = (e.target && e.target.value) || '';
@@ -86,7 +87,7 @@ export const Registro = () => {
         let date = new Date();
         // let output = String(date.getDate()).padStart(2, '0') + '/' + String(date.getMonth() + 1).padStart(2, '0') + '/' + date.getFullYear();
         setDisable(true);
-        if(entidad.tipoArresto === ''){
+        if (entidad.tipoArresto === '') {
             entidad.tipoArresto = 'Policial';
         }
         entidad.fecRegistro = date.toLocaleString();
@@ -126,28 +127,32 @@ export const Registro = () => {
                         <small>Consignar el nombre que proporciona el Detenido</small>
                     </div>
                     <div className="field p-fluid">
-                            <label htmlFor="tdocumento">Tipo de Documento</label>
-                            <Dropdown id="tdocumento" options={tipodocumento} value={entidad.tdocumento} onChange={(e) => onInputChange(e, 'tdocumento')} required />
-                            <small>Consignar el numero documento que proporciona el Detenido</small>
-                        </div>
+                        <label htmlFor="tDocumento">Tipo de Documento</label>
+                        <Dropdown id="tDocumento" options={tipodocumento} value={entidad.tDocumento} onChange={(e) => onInputChange(e, 'tDocumento')} required />
+                        <small>Consignar el numero documento que proporciona el Detenido</small>
+                    </div>
                     <div className="field p-fluid">
                         <label htmlFor="documento">N° Documento</label>
                         <InputText id="documento" type="text" name="documento" onChange={(e) => onInputChange(e, 'documento')} required />
                         <small>Consignar el numero documento que proporciona el Detenido</small>
                     </div>
-                    <div className="grid">
-                        <div className="col-12 md:col-4">
-                            <div className="field-radiobutton">
-                                <RadioButton inputId="option1" name="option" value="Policial" checked={radioValue === 'Policial'} onChange={(e) => onInputChangeRadio(e, 'tipoArresto')} />
-                                <label htmlFor="option1">Arresto Policial</label>
+                    <div className="field">
+                        <label htmlFor="genero" className='mb-3'>Tipo de Arresto</label>
+                        <div className="grid">
+                            <div className="col-12 md:col-4">
+                                <div className="field-radiobutton">
+                                    <RadioButton inputId="option1" name="option" value="Policial" checked={radioValue === 'Policial'} onChange={(e) => onInputChangeRadio(e, 'tipoArresto')} />
+                                    <label htmlFor="option1">Arresto Policial</label>
+                                </div>
+                            </div>
+                            <div className="col-12 md:col-4">
+                                <div className="field-radiobutton">
+                                    <RadioButton inputId="option2" name="option" value="Ciudadano" checked={radioValue === 'Ciudadano'} onChange={(e) => onInputChangeRadio(e, 'tipoArresto')} />
+                                    <label htmlFor="option2">Arresto Ciudadano</label>
+                                </div>
                             </div>
                         </div>
-                        <div className="col-12 md:col-4">
-                            <div className="field-radiobutton">
-                                <RadioButton inputId="option2" name="option" value="Ciudadano" checked={radioValue === 'Ciudadano'} onChange={(e) => onInputChangeRadio(e, 'tipoArresto')} />
-                                <label htmlFor="option2">Arresto Ciudadano</label>
-                            </div>
-                        </div>
+                        <small>Consignar el tipo de arresto</small>
                     </div>
                     <br />
                     <Button label="Registrar" disabled={disable} onClick={() => peticionPost(this)} />

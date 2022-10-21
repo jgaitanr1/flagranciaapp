@@ -56,7 +56,7 @@ export const FlagrantesMP = () => {
         "Principio de Oportunidad",
         "Acuerdo Reparatorio",
         "Corte de proceso por Menor de Edad",
-        "El hecho no es delito",
+        // "El hecho no es delito",
         "El hecho es falta"
     ];
 
