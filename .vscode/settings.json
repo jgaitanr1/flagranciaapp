@@ -1,4 +1,8 @@
 {
     "appService.defaultWebAppToDeploy": "/subscriptions/d58f2e91-d0d7-47c4-b8e2-0b6b54d07927/microsoft.web/sites/subscriptions/d58f2e91-d0d7-47c4-b8e2-0b6b54d07927/resourceGroups/jgaitanr/providers/Microsoft.Web/sites/FlagranciaAPP",
-    "appService.deploySubpath": "."
+    "appService.deploySubpath": ".",
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ]
 }
